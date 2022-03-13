@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React, { FC } from 'react'
 
 const Header: FC = () => {
@@ -5,9 +6,9 @@ const Header: FC = () => {
     <header>
       <div className='ass1-header'>
         <div className='container'>
-          <a href='index.html' className='ass1-logo'>
-            Meme
-          </a>
+          <Link href='/'>
+            <a className='ass1-logo'>Meme</a>
+          </Link>
           <nav>
             <ul className='ass1-header__menu'>
               <li>
@@ -16,70 +17,70 @@ const Header: FC = () => {
                   <div className='container'>
                     <ul>
                       <li>
-                        <a href='index.html'>Funny</a>
+                        <a href='#'>Funny</a>
                       </li>
                       <li>
-                        <a href='index.html'>Animals</a>
+                        <a href='#'>Animals</a>
                       </li>
                       <li>
-                        <a href='index.html'>Anime &amp; Mâng</a>
+                        <a href='#'>Anime &amp; Mâng</a>
                       </li>
                       <li>
-                        <a href='index.html'>Awesome</a>
+                        <a href='#'>Awesome</a>
                       </li>
                       <li>
-                        <a href='index.html'>Basketball</a>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <a href='index.html'>Car</a>
-                      </li>
-                      <li>
-                        <a href='index.html'>Comic</a>
-                      </li>
-                      <li>
-                        <a href='index.html'>Cosplay</a>
-                      </li>
-                      <li>
-                        <a href='index.html'>Countryballs</a>
-                      </li>
-                      <li>
-                        <a href='index.html'>Classical Art Memes</a>
+                        <a href='#'>Basketball</a>
                       </li>
                     </ul>
                     <ul>
                       <li>
-                        <a href='index.html'>Girl</a>
+                        <a href='#'>Car</a>
                       </li>
                       <li>
-                        <a href='index.html'>History</a>
+                        <a href='#'>Comic</a>
                       </li>
                       <li>
-                        <a href='index.html'>K-POP</a>
+                        <a href='#'>Cosplay</a>
                       </li>
                       <li>
-                        <a href='index.html'>V-POP</a>
+                        <a href='#'>Countryballs</a>
                       </li>
                       <li>
-                        <a href='index.html'>Pokémon</a>
+                        <a href='#'>Classical Art Memes</a>
                       </li>
                     </ul>
                     <ul>
                       <li>
-                        <a href='index.html'>School</a>
+                        <a href='#'>Girl</a>
                       </li>
                       <li>
-                        <a href='index.html'>Star war</a>
+                        <a href='#'>History</a>
                       </li>
                       <li>
-                        <a href='index.html'>Coder</a>
+                        <a href='#'>K-POP</a>
                       </li>
                       <li>
-                        <a href='index.html'>Travel</a>
+                        <a href='#'>V-POP</a>
                       </li>
                       <li>
-                        <a href='index.html'>Sport</a>
+                        <a href='#'>Pokémon</a>
+                      </li>
+                    </ul>
+                    <ul>
+                      <li>
+                        <a href='#'>School</a>
+                      </li>
+                      <li>
+                        <a href='#'>Star war</a>
+                      </li>
+                      <li>
+                        <a href='#'>Coder</a>
+                      </li>
+                      <li>
+                        <a href='#'>Travel</a>
+                      </li>
+                      <li>
+                        <a href='#'>Sport</a>
                       </li>
                     </ul>
                   </div>
@@ -87,75 +88,75 @@ const Header: FC = () => {
                 </div>
               </li>
               <li className='active'>
-                <a href='index.html'>Hot</a>
+                <a href='#'>Hot</a>
                 <div className='ass1-header__nav' style={{ display: 'none' }}>
                   <div className='container'>
                     <ul>
                       <li>
-                        <a href='index.html'>Funny</a>
+                        <a href='#'>Funny</a>
                       </li>
                       <li>
-                        <a href='index.html'>Animals</a>
+                        <a href='#'>Animals</a>
                       </li>
                       <li>
-                        <a href='index.html'>Anime &amp; Manga</a>
+                        <a href='#'>Anime &amp; Manga</a>
                       </li>
                       <li>
-                        <a href='index.html'>Awesome</a>
+                        <a href='#'>Awesome</a>
                       </li>
                       <li>
-                        <a href='index.html'>Basketball</a>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <a href='index.html'>Car</a>
-                      </li>
-                      <li>
-                        <a href='index.html'>Comic</a>
-                      </li>
-                      <li>
-                        <a href='index.html'>Cosplay</a>
-                      </li>
-                      <li>
-                        <a href='index.html'>Countryballs</a>
-                      </li>
-                      <li>
-                        <a href='index.html'>Classical Art Memes</a>
+                        <a href='#'>Basketball</a>
                       </li>
                     </ul>
                     <ul>
                       <li>
-                        <a href='index.html'>Girl</a>
+                        <a href='#'>Car</a>
                       </li>
                       <li>
-                        <a href='index.html'>History</a>
+                        <a href='#'>Comic</a>
                       </li>
                       <li>
-                        <a href='index.html'>K-POP</a>
+                        <a href='#'>Cosplay</a>
                       </li>
                       <li>
-                        <a href='index.html'>V-POP</a>
+                        <a href='#'>Countryballs</a>
                       </li>
                       <li>
-                        <a href='index.html'>Pokémon</a>
+                        <a href='#'>Classical Art Memes</a>
                       </li>
                     </ul>
                     <ul>
                       <li>
-                        <a href='index.html'>School</a>
+                        <a href='#'>Girl</a>
                       </li>
                       <li>
-                        <a href='index.html'>Star war</a>
+                        <a href='#'>History</a>
                       </li>
                       <li>
-                        <a href='index.html'>Coder</a>
+                        <a href='#'>K-POP</a>
                       </li>
                       <li>
-                        <a href='index.html'>Travel</a>
+                        <a href='#'>V-POP</a>
                       </li>
                       <li>
-                        <a href='index.html'>Sport</a>
+                        <a href='#'>Pokémon</a>
+                      </li>
+                    </ul>
+                    <ul>
+                      <li>
+                        <a href='#'>School</a>
+                      </li>
+                      <li>
+                        <a href='#'>Star war</a>
+                      </li>
+                      <li>
+                        <a href='#'>Coder</a>
+                      </li>
+                      <li>
+                        <a href='#'>Travel</a>
+                      </li>
+                      <li>
+                        <a href='#'>Sport</a>
                       </li>
                     </ul>
                   </div>
@@ -177,12 +178,14 @@ const Header: FC = () => {
               </label>
             </form>
           </div>
-          <a href='#' className='ass1-header__btn-upload ass1-btn'>
-            <i className='icon-Upvote' /> Upload
-          </a>
-          <a href='' className='ass1-header__btn-upload ass1-btn'>
-            Login
-          </a>
+          <Link href='/posts/create'>
+            <a className='ass1-header__btn-upload ass1-btn'>
+              <i className='icon-Upvote' /> Upload
+            </a>
+          </Link>
+          <Link href='/login'>
+            <a className='ass1-header__btn-upload ass1-btn'>Login</a>
+          </Link>
         </div>
       </div>
     </header>

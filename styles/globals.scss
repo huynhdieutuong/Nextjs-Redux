@@ -204,6 +204,9 @@ select.form-control:focus {
 .ass1-btn-icon > i {
   font-size: 20px;
   cursor: pointer;
+  &.icon-Reply {
+    font-size: 15px;
+  }
 }
 .ass1-btn-icon > i,
 .ass1-btn-icon > span {
@@ -641,7 +644,6 @@ select.form-control:focus {
 }
 .ass1-content-head__t {
   font-weight: 700;
-  margin-top: -30px;
   margin-bottom: 10px;
 }
 .ass1-content-head__flex-off {
@@ -873,6 +875,9 @@ select.form-control:focus {
 .ass1-section__head,
 .ass1-section__content {
   border-bottom: solid 1px #f3f3f3;
+}
+.ass1-section__content .form-group {
+  margin-bottom: 16px;
 }
 .ass1-section__head {
   padding-bottom: 30px;

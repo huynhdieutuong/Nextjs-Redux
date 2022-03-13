@@ -5,8 +5,19 @@ import type { AppProps } from 'next/app'
 import { Header } from '../components/Header'
 import Head from 'next/head'
 import { Footer } from '../components/Footer'
+import { useMemo } from 'react'
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps, router }: AppProps) {
+  const isShowHeader: boolean = useMemo(() => {
+    const hiddenPages = ['/login', '/register']
+    return hiddenPages.indexOf(router.pathname) === -1
+  }, [router.pathname])
+
+  const isShowFooter: boolean = useMemo(() => {
+    const hiddenPages = ['/']
+    return hiddenPages.indexOf(router.pathname) === -1
+  }, [router.pathname])
+
   return (
     <div id='root'>
       <Head>
@@ -22,13 +33,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>Funny photo social network - Meme</title>
       </Head>
 
-      <Header />
+      {isShowHeader && <Header />}
 
       <main>
         <Component {...pageProps} />
       </main>
 
-      <Footer />
+      {isShowFooter && <Footer />}
     </div>
   )
 }
