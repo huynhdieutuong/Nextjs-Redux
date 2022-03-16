@@ -5,24 +5,34 @@ import type { AppContext, AppProps } from 'next/app'
 import { Header } from '../components/Header'
 import Head from 'next/head'
 import { Footer } from '../components/Footer'
-import { useContext, useMemo } from 'react'
+import { FC, useContext, useEffect, useMemo } from 'react'
 import cookie from 'cookie'
 import jwt_decode from 'jwt-decode'
 import { UserJWTObj } from '../interfaces/user'
 import userService from '../services/user'
 import UserState from '../contexts/user/UserState'
 import UserContext from '../contexts/user/userContext'
+import { useRouter } from 'next/router'
 
 interface WrapperProps {
-  children: React.ReactNode
   userInfo: object
 }
-function Wrapper({ children, userInfo }: WrapperProps) {
+const Wrapper: FC<WrapperProps> = ({ children, userInfo }) => {
+  const router = useRouter()
   const { setCurrentUser } = useContext(UserContext)
   useMemo(() => {
     setCurrentUser(userInfo)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    const token = cookie.parse(document.cookie).token
+    if (!token) {
+      setCurrentUser(null)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router])
+
   return <>{children}</>
 }
 

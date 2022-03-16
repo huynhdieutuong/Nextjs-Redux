@@ -9,6 +9,7 @@ export default (state: any, action: any) => {
       return {
         ...state,
         currentUser: payload,
+        loading: false,
       }
     default:
       return state

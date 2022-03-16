@@ -2,9 +2,11 @@ import { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { useNotAuthen } from '../helpers/useAuthen'
 import { LoginData } from '../interfaces/user'
 
 const Login: NextPage = () => {
+  useNotAuthen()
   const router = useRouter()
   const queryString = router.query.error
 
@@ -44,24 +46,30 @@ const Login: NextPage = () => {
         <p>Login</p>
         <div className='ass1-login__form'>
           <form action='/api/login' method='POST' onSubmit={handleSubmit}>
-            <input
-              type='text'
-              name='email'
-              className='form-control'
-              placeholder='Email'
-              required
-              // value={formData.email}
-              // onChange={hanldeOnChange('email')}
-            />
-            <input
-              type='password'
-              name='password'
-              className='form-control'
-              placeholder='Password'
-              required
-              // value={formData.password}
-              // onChange={hanldeOnChange('password')}
-            />
+            <div className='form-group'>
+              <input
+                type='text'
+                name='email'
+                className='form-control'
+                placeholder='Email'
+                required
+                value={formData.email}
+                onChange={hanldeOnChange('email')}
+              />
+              {/* <small className='form-text text-danger'>Error</small> */}
+            </div>
+            <div className='form-group'>
+              <input
+                type='password'
+                name='password'
+                className='form-control'
+                placeholder='Password'
+                required
+                value={formData.password}
+                onChange={hanldeOnChange('password')}
+              />
+              {/* <small className='form-text text-danger'>Error</small> */}
+            </div>
             <div className='ass1-login__send'>
               <Link href='/register'>
                 <a>Register an account</a>

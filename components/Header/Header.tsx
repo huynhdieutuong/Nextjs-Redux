@@ -1,7 +1,21 @@
 import Link from 'next/link'
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
+import UserContext from '../../contexts/user/userContext'
+import { useRouter } from 'next/router'
 
 const Header: FC = () => {
+  const router = useRouter()
+  const { currentUser } = useContext(UserContext)
+
+  const handleLogout = () => {
+    const check = window.confirm('Are you sure to logout?')
+    if (check) {
+      const currentTime = new Date()
+      document.cookie = `token=;expires=${currentTime}.toUTCString();path=\/`
+      router.push('/')
+    }
+  }
+
   return (
     <header>
       <div className='ass1-header'>
@@ -183,9 +197,31 @@ const Header: FC = () => {
               <i className='icon-Upvote' /> Upload
             </a>
           </Link>
-          <Link href='/login'>
-            <a className='ass1-header__btn-upload ass1-btn'>Login</a>
-          </Link>
+          {currentUser ? (
+            <div className='wrapper-user'>
+              <a className='user-header'>
+                <span className='avatar'>
+                  <img
+                    src={currentUser.profilepicture || '/images/avatar-02.png'}
+                    alt='avatar'
+                  />
+                </span>
+                <span className='email'>{currentUser.email}</span>
+              </a>
+              <div onClick={handleLogout} className='logout'>
+                Logout
+              </div>
+            </div>
+          ) : (
+            <>
+              <Link href='/login'>
+                <a className='ass1-header__btn-upload ass1-btn'>Login</a>
+              </Link>
+              <Link href='/register'>
+                <a className='ass1-header__btn-upload ass1-btn'>Register</a>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>
