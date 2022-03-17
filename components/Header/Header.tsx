@@ -206,7 +206,7 @@ const Header: FC = () => {
                     alt='avatar'
                   />
                 </span>
-                <span className='email'>{currentUser.email}</span>
+                <span className='email'>{currentUser.fullname}</span>
               </a>
               <div onClick={handleLogout} className='logout'>
                 Logout

@@ -2,13 +2,16 @@ import { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { Button } from '../components/Button'
 import { useNotAuthen } from '../helpers/useAuthen'
+import { validateAuthForm } from '../helpers/validateForm'
 import { LoginData } from '../interfaces/user'
 
 const Login: NextPage = () => {
   useNotAuthen()
   const router = useRouter()
   const queryString = router.query.error
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (queryString) {
@@ -18,20 +21,42 @@ const Login: NextPage = () => {
   }, [queryString])
 
   const initData: LoginData = {
-    email: '',
-    password: '',
+    email: {
+      value: '',
+      error: '',
+    },
+    password: {
+      value: '',
+      error: '',
+    },
   }
   const [formData, setFormData] = useState(initData)
 
-  const hanldeOnChange = (key: string) => (e: any) => {
+  const handleOnChange = (key: string) => (e: any) => {
+    const error = validateAuthForm(key, e.target.value)
+
     setFormData({
       ...formData,
-      [key]: e.target.value,
+      [key]: {
+        value: e.target.value,
+        error,
+      },
     })
   }
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
+
+    for (let key in formData) {
+      const error = formData[key as keyof LoginData].error
+      const value = formData[key as keyof LoginData].value
+      if (error || !value.trim().length) {
+        return alert('Please input valid data')
+      }
+    }
+
+    setLoading(true)
+
     e.target.submit()
   }
 
@@ -52,11 +77,14 @@ const Login: NextPage = () => {
                 name='email'
                 className='form-control'
                 placeholder='Email'
-                required
-                value={formData.email}
-                onChange={hanldeOnChange('email')}
+                value={formData.email.value}
+                onChange={handleOnChange('email')}
               />
-              {/* <small className='form-text text-danger'>Error</small> */}
+              {formData.email.error && (
+                <small className='form-text text-danger'>
+                  {formData.email.error}
+                </small>
+              )}
             </div>
             <div className='form-group'>
               <input
@@ -64,19 +92,27 @@ const Login: NextPage = () => {
                 name='password'
                 className='form-control'
                 placeholder='Password'
-                required
-                value={formData.password}
-                onChange={hanldeOnChange('password')}
+                value={formData.password.value}
+                onChange={handleOnChange('password')}
               />
-              {/* <small className='form-text text-danger'>Error</small> */}
+              {formData.password.error && (
+                <small className='form-text text-danger'>
+                  {formData.password.error}
+                </small>
+              )}
             </div>
             <div className='ass1-login__send'>
               <Link href='/register'>
                 <a>Register an account</a>
               </Link>
-              <button type='submit' className='ass1-btn'>
+              <Button
+                type='submit'
+                className='ass1-btn'
+                disabled={loading}
+                isLoading={loading}
+              >
                 Login
-              </button>
+              </Button>
             </div>
           </form>
         </div>
