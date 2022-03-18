@@ -5,36 +5,14 @@ import type { AppContext, AppProps } from 'next/app'
 import { Header } from '../components/Header'
 import Head from 'next/head'
 import { Footer } from '../components/Footer'
-import { FC, useContext, useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import cookie from 'cookie'
 import jwt_decode from 'jwt-decode'
 import { UserJWTObj } from '../interfaces/user'
 import userService from '../services/user'
-import UserState from '../contexts/user/UserState'
-import UserContext from '../contexts/user/userContext'
-import { useRouter } from 'next/router'
-
-interface WrapperProps {
-  userInfo: object
-}
-const Wrapper: FC<WrapperProps> = ({ children, userInfo }) => {
-  const router = useRouter()
-  const { setCurrentUser } = useContext(UserContext)
-  useMemo(() => {
-    setCurrentUser(userInfo)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    const token = cookie.parse(document.cookie).token
-    if (!token) {
-      setCurrentUser(null)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router])
-
-  return <>{children}</>
-}
+import { store } from '../redux/store'
+import { Provider } from 'react-redux'
+import { setCurrentUser } from '../redux/user/userActions'
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   const isShowHeader: boolean = useMemo(() => {
@@ -47,41 +25,52 @@ function MyApp({ Component, pageProps, router }: AppProps) {
     return hiddenPages.indexOf(router.pathname) === -1
   }, [router.pathname])
 
+  useMemo(() => {
+    store.dispatch(setCurrentUser(pageProps.userInfo))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    const token = cookie.parse(document.cookie).token
+    if (!token) {
+      store.dispatch(setCurrentUser(null))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.pathname])
+
   return (
-    <UserState>
-      <Wrapper {...pageProps}>
-        <div id='root'>
-          <Head>
-            <meta httpEquiv='Content-Type' content='text/html; charset=UTF-8' />
-            <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
-            <meta
-              name='viewport'
-              content='width=device-width, minimum-scale=1, maximum-scale=1'
-            />
-            <meta name='keywords' content='HTML5 Template' />
-            <meta
-              name='description'
-              content='Funny photo social network - Meme'
-            />
-            <link rel='icon' href='/favicon.ico' />
-            <title>Funny photo social network - Meme</title>
-          </Head>
+    <Provider store={store}>
+      <div id='root'>
+        <Head>
+          <meta httpEquiv='Content-Type' content='text/html; charset=UTF-8' />
+          <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
+          <meta
+            name='viewport'
+            content='width=device-width, minimum-scale=1, maximum-scale=1'
+          />
+          <meta name='keywords' content='HTML5 Template' />
+          <meta
+            name='description'
+            content='Funny photo social network - Meme'
+          />
+          <link rel='icon' href='/favicon.ico' />
+          <title>Funny photo social network - Meme</title>
+        </Head>
 
-          {isShowHeader && <Header />}
+        {isShowHeader && <Header />}
 
-          <main>
-            <Component {...pageProps} />
-          </main>
+        <main>
+          <Component {...pageProps} />
+        </main>
 
-          {isShowFooter && <Footer />}
-        </div>
-      </Wrapper>
-    </UserState>
+        {isShowFooter && <Footer />}
+      </div>
+    </Provider>
   )
 }
 
 MyApp.getInitialProps = async (appContext: AppContext) => {
-  let resUser: any = null
+  let resUser: any
 
   if (typeof window === 'undefined') {
     const cookieString = appContext.ctx.req?.headers.cookie || ''

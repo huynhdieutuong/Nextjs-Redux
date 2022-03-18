@@ -3,12 +3,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Button } from '../components/Button'
-import { useNotAuthen } from '../helpers/useAuthen'
+import { useAuthen } from '../helpers/useAuthen'
 import { validateAuthForm } from '../helpers/validateForm'
 import { LoginData } from '../interfaces/user'
 
 const Login: NextPage = () => {
-  useNotAuthen()
+  useAuthen(false)
   const router = useRouter()
   const queryString = router.query.error
   const [loading, setLoading] = useState(false)

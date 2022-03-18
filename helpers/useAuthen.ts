@@ -1,27 +1,20 @@
 import { useRouter } from 'next/router'
-import { useContext, useEffect } from 'react'
-import UserContext from '../contexts/user/userContext'
+import { useEffect } from 'react'
+import { useAppSelector } from '../redux/hooks'
+import { selectCurrentUser } from '../redux/user/userReducers'
 
-export function useAuthen() {
+export function useAuthen(requiredLogin: boolean = true) {
   const router = useRouter()
-  const { loading, currentUser } = useContext(UserContext)
+  const currentUser = useAppSelector(selectCurrentUser)
 
   useEffect(() => {
-    if (!currentUser && !loading) {
+    if (!currentUser && requiredLogin) {
       router.push('/login')
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser, loading])
-}
 
-export function useNotAuthen() {
-  const router = useRouter()
-  const { loading, currentUser } = useContext(UserContext)
-
-  useEffect(() => {
-    if (currentUser && !loading) {
+    if (currentUser && !requiredLogin) {
       router.push('/')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser, loading])
+  }, [currentUser])
 }

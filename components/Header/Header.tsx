@@ -1,18 +1,19 @@
 import Link from 'next/link'
-import React, { FC, useContext } from 'react'
-import UserContext from '../../contexts/user/userContext'
+import React, { FC } from 'react'
 import { useRouter } from 'next/router'
+import { selectCurrentUser } from '../../redux/user/userReducers'
+import { useAppSelector } from '../../redux/hooks'
 
 const Header: FC = () => {
   const router = useRouter()
-  const { currentUser } = useContext(UserContext)
+  const currentUser = useAppSelector(selectCurrentUser)
 
   const handleLogout = () => {
     const check = window.confirm('Are you sure to logout?')
     if (check) {
       const currentTime = new Date()
       document.cookie = `token=;expires=${currentTime}.toUTCString();path=\/`
-      router.push('/')
+      router.push('/login')
     }
   }
 
