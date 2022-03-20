@@ -10,7 +10,7 @@ const userService = {
   register: async (data: RegisterData) => {
     return axiosClient.post(`${url}/register.php`, data)
   },
-  getUserById: async (userId: number) => {
+  getUserById: async (userId: number | null) => {
     return axiosClient.get(`${url}/member.php?userid=${userId}`)
   },
 }

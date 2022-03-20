@@ -4,16 +4,33 @@ import jwt_decode from 'jwt-decode'
 import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { UserJWTObj } from '../interfaces/user'
+import { useAppDispatch } from '../redux/hooks'
 import { wrapper } from '../redux/store'
-import { setCurrentUser } from '../redux/user/userActions'
-import userService from '../services/user'
+import { getCurrentUser, setCurrentUser } from '../redux/user/userActions'
 import '../styles/globals.scss'
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps, router }) => {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    const token = cookie.parse(document.cookie).token
+
+    if (token) {
+      const userJwtObj: UserJWTObj = jwt_decode(token)
+      dispatch(getCurrentUser(userJwtObj?.id || null))
+    }
+  }, [])
+
+  useEffect(() => {
+    const token = cookie.parse(document.cookie).token
+
+    if (!token) dispatch(setCurrentUser(null))
+  }, [router.pathname])
+
   const isShowHeader: boolean = useMemo(() => {
     const hiddenPages = ['/login', '/register']
     return hiddenPages.indexOf(router.pathname) === -1
@@ -49,20 +66,5 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps, router }) => {
     </div>
   )
 }
-
-MyApp.getInitialProps = wrapper.getInitialPageProps(
-  (store) => async (appContext: any) => {
-    if (typeof window === 'undefined') {
-      const cookieString = appContext.ctx.req?.headers.cookie || ''
-      const token = cookie.parse(cookieString).token
-      console.log('token', token)
-      if (token) {
-        const userJwtObj: UserJWTObj = jwt_decode(token)
-        const resUser = await userService.getUserById(userJwtObj?.id)
-        store.dispatch(setCurrentUser(resUser?.data?.user || null))
-      }
-    }
-  }
-)
 
 export default wrapper.withRedux(MyApp)

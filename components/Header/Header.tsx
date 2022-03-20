@@ -2,17 +2,20 @@ import Link from 'next/link'
 import React, { FC } from 'react'
 import { useRouter } from 'next/router'
 import { selectCurrentUser } from '../../redux/user/userReducers'
-import { useAppSelector } from '../../redux/hooks'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import { setCurrentUser } from '../../redux/user/userActions'
 
 const Header: FC = () => {
   const router = useRouter()
   const currentUser = useAppSelector(selectCurrentUser)
+  const dispatch = useAppDispatch()
 
   const handleLogout = () => {
     const check = window.confirm('Are you sure to logout?')
     if (check) {
       const currentTime = new Date()
       document.cookie = `token=;expires=${currentTime}.toUTCString();path=\/`
+      dispatch(setCurrentUser(null))
       router.push('/login')
     }
   }
@@ -23,12 +26,6 @@ const Header: FC = () => {
         <div className='container'>
           <Link href='/'>
             <a className='ass1-logo'>Meme</a>
-          </Link>
-          <Link href='/staticProps'>
-            <a className='ass1-logo'>staticProps</a>
-          </Link>
-          <Link href='/serverProps'>
-            <a className='ass1-logo'>serverProps</a>
           </Link>
           <nav>
             <ul className='ass1-header__menu'>
