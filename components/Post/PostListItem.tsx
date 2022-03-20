@@ -1,38 +1,41 @@
 import Image from 'next/image'
 import React, { FC } from 'react'
+import { PostType } from '../../interfaces/post'
 
 interface ItemPropType {
   isProfile?: boolean
   isHideImage?: boolean
+  post: PostType
 }
 
-const PostListItem: FC<ItemPropType> = ({ isProfile, isHideImage }) => {
+const PostListItem: FC<ItemPropType> = ({ isProfile, isHideImage, post }) => {
+  if (!post) return null
   const classProfile = isProfile ? 'col-lg-6' : null
   return (
     <div className={`ass1-section__item ${classProfile}`}>
       <div className='ass1-section'>
         <div className='ass1-section__head'>
           <a href='' className='ass1-section__avatar ass1-avatar'>
-            <Image src='/images/avatar-02.png' alt='' width={38} height={38} />
+            <img
+              src={post.profilepicture || '/images/avatar-02.png'}
+              alt=''
+              width={38}
+              height={38}
+            />
           </a>
           <div>
             <a href='' className='ass1-section__name'>
-              John Doe
+              {post.fullname}
             </a>
             <span className='ass1-section__passed'>2 hours ago</span>
           </div>
         </div>
         <div className='ass1-section__content'>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et
-            inventore obcaecati eum deserunt ut, aperiam quas! Placeat
-            blanditiis consequatur, deserunt facere iusto amet a ad suscipit
-            laudantium unde quidem perferendis!
-          </p>
+          <p>{post.post_content}</p>
           {isHideImage ? null : (
             <div className='ass1-section__image'>
               <a href=''>
-                <img src='/images/microphone-1209816_1920.jpg' alt='' />
+                <img src={post.url_image} alt='' />
               </a>
             </div>
           )}

@@ -1,11 +1,12 @@
 import React, { FC } from 'react'
 
 interface ButtonType {
-  type: 'button' | 'submit' | 'reset'
+  type?: 'button' | 'submit' | 'reset'
   className?: string
   isLoading?: boolean
   disabled?: boolean
   colorStroke?: string
+  onClick?: () => void
 }
 
 const Button: FC<ButtonType> = ({
@@ -14,10 +15,16 @@ const Button: FC<ButtonType> = ({
   isLoading,
   disabled,
   colorStroke,
+  onClick,
   children,
 }) => {
   return (
-    <button type={type} className={className} disabled={disabled}>
+    <button
+      type={type}
+      className={className}
+      disabled={disabled}
+      onClick={onClick}
+    >
       {isLoading ? (
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -56,6 +63,7 @@ const Button: FC<ButtonType> = ({
 
 Button.defaultProps = {
   colorStroke: '#000',
+  type: 'button',
 }
 
 export default Button

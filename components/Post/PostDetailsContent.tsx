@@ -5,7 +5,7 @@ import PostListItem from './PostListItem'
 const PostDetailsContent = () => {
   return (
     <div className='ass1-section__list'>
-      <PostListItem />
+      {/* <PostListItem /> */}
 
       <CommentForm />
 

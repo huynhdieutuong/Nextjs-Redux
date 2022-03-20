@@ -11,7 +11,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const response: any = await userService.register(req.body)
+    const resRegister: any = await userService.register(req.body)
+    const response = resRegister.data
     const currentTime = new Date()
     const nextYear = new Date(
       currentTime.getFullYear() + 1,

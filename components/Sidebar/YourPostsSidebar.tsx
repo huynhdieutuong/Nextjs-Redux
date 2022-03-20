@@ -15,11 +15,11 @@ const YourPostsSidebar = () => {
         </Link>
       </div>
 
+      {/* <PostListItem isHideImage />
       <PostListItem isHideImage />
       <PostListItem isHideImage />
       <PostListItem isHideImage />
-      <PostListItem isHideImage />
-      <PostListItem isHideImage />
+      <PostListItem isHideImage /> */}
     </aside>
   )
 }

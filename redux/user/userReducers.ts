@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { CurrentUserType } from '../../interfaces/user'
-import { RootState } from '../store'
+import { AppThunk, RootState } from '../store'
+import { HYDRATE } from 'next-redux-wrapper'
+import userService from '../../services/user'
 
 interface StateType {
   currentUser: CurrentUserType | null
@@ -16,6 +18,11 @@ export const userSlice = createSlice({
   reducers: {
     setCurrentUser: (state, action: PayloadAction<CurrentUserType>) => {
       state.currentUser = action.payload
+    },
+  },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      state.currentUser = action.payload.user.currentUser
     },
   },
 })

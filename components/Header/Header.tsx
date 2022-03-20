@@ -24,6 +24,12 @@ const Header: FC = () => {
           <Link href='/'>
             <a className='ass1-logo'>Meme</a>
           </Link>
+          <Link href='/staticProps'>
+            <a className='ass1-logo'>staticProps</a>
+          </Link>
+          <Link href='/serverProps'>
+            <a className='ass1-logo'>serverProps</a>
+          </Link>
           <nav>
             <ul className='ass1-header__menu'>
               <li>

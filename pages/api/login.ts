@@ -12,7 +12,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const response: any = await userService.login(req.body)
+    const resLogin: any = await userService.login(req.body)
+    const response = resLogin.data
     const currentTime = new Date()
     const nextYear = new Date(
       currentTime.getFullYear() + 1,
