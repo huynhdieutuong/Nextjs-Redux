@@ -1,6 +1,9 @@
 import Image from 'next/image'
 import React, { FC } from 'react'
 import { PostType } from '../../interfaces/post'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
 
 interface ItemPropType {
   isProfile?: boolean
@@ -27,7 +30,9 @@ const PostListItem: FC<ItemPropType> = ({ isProfile, isHideImage, post }) => {
             <a href='' className='ass1-section__name'>
               {post.fullname}
             </a>
-            <span className='ass1-section__passed'>2 hours ago</span>
+            <span className='ass1-section__passed'>
+              {dayjs(post.time_added).fromNow()}
+            </span>
           </div>
         </div>
         <div className='ass1-section__content'>

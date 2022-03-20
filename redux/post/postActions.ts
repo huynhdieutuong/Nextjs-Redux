@@ -10,4 +10,12 @@ export const getPostList = createAsyncThunk(
   }
 )
 
+export const getUserPostList = createAsyncThunk(
+  'post/getUserPostList',
+  async (userId: string) => {
+    const res = await postService.getPostListByUserId(userId)
+    return res.data.posts.slice(0, 5)
+  }
+)
+
 export const setPostList = createAction<PostType[]>('post/setPostList')

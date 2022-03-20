@@ -11,6 +11,9 @@ const postService = {
       `${url}/getListPagination.php?pagesize=${params.pagesize}&currPage=${params.currPage}`
     )
   },
+  getPostListByUserId: (userId: string) => {
+    return axiosClient.get(`${url}/getListPostUserID.php?userid=${userId}`)
+  },
 }
 
 export default postService

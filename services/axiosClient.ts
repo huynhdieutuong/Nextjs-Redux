@@ -1,5 +1,6 @@
 import axios from 'axios'
 import queryString from 'query-string'
+import cookie from 'cookie'
 
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -12,6 +13,11 @@ const axiosClient = axios.create({
 // Add a request interceptor
 axiosClient.interceptors.request.use(
   function (config) {
+    if (typeof window !== 'undefined') {
+      const token = cookie.parse(document.cookie).token
+      const auth = token ? `Bearer ${token}` : ''
+      config.headers!.Authorization = auth
+    }
     // Do something before request is sent
     return config
   },
