@@ -7,20 +7,20 @@ import Link from 'next/link'
 dayjs.extend(relativeTime)
 
 interface ItemPropType {
-  isProfile?: boolean
+  isNoSidebar?: boolean
   isHideImage?: boolean
   isDetailPost?: boolean
   post: PostType
 }
 
 const PostListItem: FC<ItemPropType> = ({
-  isProfile,
+  isNoSidebar,
   isHideImage,
   isDetailPost,
   post,
 }) => {
   if (!post) return null
-  const classProfile = isProfile ? 'col-lg-6' : null
+  const classProfile = isNoSidebar ? 'col-lg-6' : null
   return (
     <div className={`ass1-section__item ${classProfile}`}>
       <div className='ass1-section'>
@@ -76,7 +76,7 @@ const PostListItem: FC<ItemPropType> = ({
 }
 
 PostListItem.defaultProps = {
-  isProfile: false,
+  isNoSidebar: false,
   isHideImage: false,
   isDetailPost: false,
 }

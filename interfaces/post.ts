@@ -3,6 +3,12 @@ export interface ParamsGetPostListType {
   currPage: number
 }
 
+export interface ParamsGetPostListByCatIdType {
+  pagesize: number
+  currPage: number
+  catId: number
+}
+
 export interface PostType {
   PID: string
   USERID: string
@@ -13,4 +19,9 @@ export interface PostType {
   time_added: string
   status: string
   count: string | null
+}
+
+export interface CategoryType {
+  text: string
+  id: number
 }

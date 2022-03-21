@@ -1,4 +1,9 @@
-import { ParamsGetPostListType, PostType } from '../interfaces/post'
+import {
+  CategoryType,
+  ParamsGetPostListByCatIdType,
+  ParamsGetPostListType,
+  PostType,
+} from '../interfaces/post'
 import axiosClient from './axiosClient'
 
 const url = '/post'
@@ -22,6 +27,20 @@ const postService = {
     return res.data.posts.map((post: PostType) => ({
       params: { postId: `${post.PID}` },
     }))
+  },
+  getCategories: () => {
+    return axiosClient.get('/categories/index.php')
+  },
+  getCatIds: async () => {
+    const res = await postService.getCategories()
+    return res.data.categories.map((category: CategoryType) => ({
+      params: { catId: `${category.id}` },
+    }))
+  },
+  getPostsByCatId: (params: ParamsGetPostListByCatIdType) => {
+    return axiosClient.get(
+      `${url}/getListByCategory.php?pagesize=${params.pagesize}&currPage=${params.currPage}&tagIndex=${params.catId}`
+    )
   },
 }
 

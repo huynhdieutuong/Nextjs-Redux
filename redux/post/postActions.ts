@@ -1,7 +1,13 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { ParamsGetPostListType, PostType } from '../../interfaces/post'
+import {
+  CategoryType,
+  ParamsGetPostListByCatIdType,
+  ParamsGetPostListType,
+  PostType,
+} from '../../interfaces/post'
 import postService from '../../services/post'
 
+export const setPostList = createAction<PostType[]>('post/setPostList')
 export const getPostList = createAsyncThunk(
   'post/getPostList',
   async (params?: ParamsGetPostListType) => {
@@ -18,4 +24,22 @@ export const getUserPostList = createAsyncThunk(
   }
 )
 
-export const setPostList = createAction<PostType[]>('post/setPostList')
+export const setCategories = createAction<CategoryType[]>('post/setCategories')
+export const getCategories = createAsyncThunk(
+  'post/getCategories',
+  async () => {
+    const res = await postService.getCategories()
+    return res.data.categories || []
+  }
+)
+
+export const setPostListByCatId = createAction<PostType[]>(
+  'post/setPostListByCatId'
+)
+export const getPostListByCatId = createAsyncThunk(
+  'post/getPostListByCatId',
+  async (params: ParamsGetPostListByCatIdType) => {
+    const res = await postService.getPostsByCatId(params)
+    return res.data.posts
+  }
+)

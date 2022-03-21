@@ -3,10 +3,14 @@ import { YourPostsSidebar } from '../components/Sidebar'
 import { PostList } from '../components/Post'
 import { FC, useMemo, useState } from 'react'
 import postService from '../services/post'
-import { PostType } from '../interfaces/post'
+import { CategoryType, PostType } from '../interfaces/post'
 import { useAppDispatch, useAppSelector } from '../redux/hooks'
 import { selectLoadingButton, selectPostList } from '../redux/post/postReducers'
-import { getPostList, setPostList } from '../redux/post/postActions'
+import {
+  getPostList,
+  setCategories,
+  setPostList,
+} from '../redux/post/postActions'
 import { wrapper } from '../redux/store'
 
 const pagesize = 3
@@ -42,11 +46,20 @@ const Home: FC<InferGetStaticPropsType<typeof getStaticProps>> = () => {
 
 export const getStaticProps: GetStaticProps = wrapper.getStaticProps(
   (store) => async () => {
-    const res = await postService.getPostList()
-    const postList: PostType[] = res.data.posts || []
+    const [resPostList, resCategories] = await Promise.all([
+      postService.getPostList(),
+      postService.getCategories(),
+    ])
+
+    const postList: PostType[] = resPostList.data.posts || []
+    const categories: CategoryType[] = resCategories.data.categories || []
+
     store.dispatch(setPostList(postList))
+    store.dispatch(setCategories(categories))
+
     return {
       props: {},
+      revalidate: Number(process.env.RE_GENERATION_SECONDS),
     }
   }
 )

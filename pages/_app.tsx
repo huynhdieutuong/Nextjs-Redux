@@ -9,6 +9,7 @@ import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { UserJWTObj } from '../interfaces/user'
 import { useAppDispatch } from '../redux/hooks'
+import { getCategories } from '../redux/post/postActions'
 import { wrapper } from '../redux/store'
 import { getCurrentUser, setCurrentUser } from '../redux/user/userActions'
 import '../styles/globals.scss'
@@ -18,10 +19,13 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps, router }) => {
 
   useEffect(() => {
     const token = cookie.parse(document.cookie).token
-
     if (token) {
       const userJwtObj: UserJWTObj = jwt_decode(token)
       dispatch(getCurrentUser(userJwtObj?.id || null))
+    }
+
+    if (router.pathname !== '/') {
+      dispatch(getCategories())
     }
   }, [])
 
@@ -29,7 +33,7 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps, router }) => {
     const token = cookie.parse(document.cookie).token
 
     if (!token) dispatch(setCurrentUser(null))
-  }, [router.pathname])
+  }, [router.asPath])
 
   const isShowHeader: boolean = useMemo(() => {
     const hiddenPages = ['/login', '/register']

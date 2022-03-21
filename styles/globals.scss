@@ -2281,26 +2281,17 @@ select.form-control:focus {
 .ass1-header__menu > li a {
   color: #1e1633;
   position: relative;
+  cursor: pointer !important;
 }
-/*.ass1-header__menu > li a:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: -25px;
-}*/
+
 .ass1-header__menu > li.active > a {
   color: #3482e2;
 }
 .ass1-header__menu > li:hover > a,
 .ass1-header__menu > li:focus > a {
-  color: #3482e2;
+  color: #3482e2 !important;
 }
-/*.ass1-header__menu > li:hover > .ass1-header__nav {
-  display: block !important;
-}
-*/
+
 .ass1-header__menu-transition {
   position: absolute;
   bottom: 100%;
@@ -2308,18 +2299,39 @@ select.form-control:focus {
   z-index: 10;
 }
 .ass1-header__nav {
-  display: none;
+  display: block;
   position: absolute;
   width: 100%;
   padding: 24px;
   top: 100%;
   left: 0;
   right: 0;
-  background-color: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  background-color: #fff;
   background-image: url('/images/menu-bg.jpg');
-  background-position: cover;
+  background-size: cover;
   border-top: solid 1px #e5e9ec;
   border-bottom: solid 1px #e6e9f1;
+  -moz-transition: all 0.2s cubic-bezier(0.66, 0.28, 0.85, 0.35);
+  -o-transition: all 0.2s cubic-bezier(0.66, 0.28, 0.85, 0.35);
+  -webkit-transition: all 0.2s cubic-bezier(0.66, 0.28, 0.85, 0.35);
+  transition: all 0.2s cubic-bezier(0.66, 0.28, 0.85, 0.35);
+}
+.ass1-header__menu > li .ass1-header__nav::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -25px;
+  height: 25px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+.ass1-header__menu > li:hover .ass1-header__nav {
+  opacity: 1;
+  pointer-events: auto;
 }
 .ass1-header__nav > .container {
   flex-wrap: wrap;
@@ -2331,11 +2343,11 @@ select.form-control:focus {
 }
 .ass1-header__nav > .container ul {
   margin: 15px 0;
-  flex-direction: column;
   display: -moz-box;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
+  flex-wrap: wrap;
 }
 @media only screen and (max-width: 768px) {
   .ass1-header__nav > .container ul {
@@ -2344,9 +2356,8 @@ select.form-control:focus {
 }
 .ass1-header__nav > .container ul li {
   text-align: center;
-}
-.ass1-header__nav > .container ul li:not(:first-child) {
   margin-top: 8px;
+  width: 25%;
 }
 .ass1-header__nav > .container ul li a:hover {
   color: #3482e2;
@@ -2600,6 +2611,7 @@ select.form-control:focus {
 
 .load-more {
   min-width: 150px;
+  max-width: 200px;
   margin: 0 auto;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
