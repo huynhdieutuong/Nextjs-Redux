@@ -3,15 +3,22 @@ import React, { FC } from 'react'
 import { PostType } from '../../interfaces/post'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import Link from 'next/link'
 dayjs.extend(relativeTime)
 
 interface ItemPropType {
   isProfile?: boolean
   isHideImage?: boolean
+  isDetailPost?: boolean
   post: PostType
 }
 
-const PostListItem: FC<ItemPropType> = ({ isProfile, isHideImage, post }) => {
+const PostListItem: FC<ItemPropType> = ({
+  isProfile,
+  isHideImage,
+  isDetailPost,
+  post,
+}) => {
   if (!post) return null
   const classProfile = isProfile ? 'col-lg-6' : null
   return (
@@ -39,9 +46,11 @@ const PostListItem: FC<ItemPropType> = ({ isProfile, isHideImage, post }) => {
           <p>{post.post_content}</p>
           {isHideImage ? null : (
             <div className='ass1-section__image'>
-              <a href=''>
-                <img src={post.url_image} alt='' />
-              </a>
+              <Link href={isDetailPost ? '#' : `/posts/${post.PID}`}>
+                <a>
+                  <img src={post.url_image} alt='' />
+                </a>
+              </Link>
             </div>
           )}
         </div>
@@ -69,6 +78,7 @@ const PostListItem: FC<ItemPropType> = ({ isProfile, isHideImage, post }) => {
 PostListItem.defaultProps = {
   isProfile: false,
   isHideImage: false,
+  isDetailPost: false,
 }
 
 export default PostListItem

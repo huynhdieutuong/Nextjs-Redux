@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { FC } from 'react'
+import { PostType } from '../../interfaces/post'
 import { CommentForm, CommentList } from '../Comment'
 import PostListItem from './PostListItem'
 
-const PostDetailsContent = () => {
+interface PostDetailType {
+  post: PostType
+}
+
+const PostDetailsContent: FC<PostDetailType> = ({ post }) => {
   return (
     <div className='ass1-section__list'>
-      {/* <PostListItem /> */}
+      <PostListItem post={post} isDetailPost={true} />
 
       <CommentForm />
 
