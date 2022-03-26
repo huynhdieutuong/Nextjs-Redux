@@ -2621,6 +2621,13 @@ select.form-control:focus {
   position: relative;
 }
 
+button:disabled.ass1-btn,
+button[disabled].ass1-btn {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
 /* Modify */
 .ass1-section__image {
   position: relative;

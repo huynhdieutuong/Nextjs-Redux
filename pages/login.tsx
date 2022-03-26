@@ -1,11 +1,13 @@
+import { Form, Formik, FormikHelpers } from 'formik'
 import { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Button } from '../components/Button'
+import { FieldInput } from '../components/Field'
 import { useAuthen } from '../helpers/useAuthen'
-import { validateAuthForm } from '../helpers/validateForm'
 import { LoginData } from '../interfaces/user'
+import * as Yup from 'yup'
 
 const Login: NextPage = () => {
   useAuthen(false)
@@ -20,43 +22,9 @@ const Login: NextPage = () => {
     }
   }, [queryString])
 
-  const initData: LoginData = {
-    email: {
-      value: '',
-      error: '',
-    },
-    password: {
-      value: '',
-      error: '',
-    },
-  }
-  const [formData, setFormData] = useState(initData)
-
-  const handleOnChange = (key: string) => (e: any) => {
-    const error = validateAuthForm(key, e.target.value)
-
-    setFormData({
-      ...formData,
-      [key]: {
-        value: e.target.value,
-        error,
-      },
-    })
-  }
-
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault()
-
-    for (let key in formData) {
-      const error = formData[key as keyof LoginData].error
-      const value = formData[key as keyof LoginData].value
-      if (error || !value.trim().length) {
-        return alert('Please input valid data')
-      }
-    }
-
     setLoading(true)
-
     e.target.submit()
   }
 
@@ -70,51 +38,49 @@ const Login: NextPage = () => {
       <div className='ass1-login__content'>
         <p>Login</p>
         <div className='ass1-login__form'>
-          <form action='/api/login' method='POST' onSubmit={handleSubmit}>
-            <div className='form-group'>
-              <input
-                type='text'
-                name='email'
-                className='form-control'
-                placeholder='Email'
-                value={formData.email.value}
-                onChange={handleOnChange('email')}
-              />
-              {formData.email.error && (
-                <small className='form-text text-danger'>
-                  {formData.email.error}
-                </small>
-              )}
-            </div>
-            <div className='form-group'>
-              <input
-                type='password'
-                name='password'
-                className='form-control'
-                placeholder='Password'
-                value={formData.password.value}
-                onChange={handleOnChange('password')}
-              />
-              {formData.password.error && (
-                <small className='form-text text-danger'>
-                  {formData.password.error}
-                </small>
-              )}
-            </div>
-            <div className='ass1-login__send'>
-              <Link href='/register'>
-                <a>Register an account</a>
-              </Link>
-              <Button
-                type='submit'
-                className='ass1-btn'
-                disabled={loading}
-                isLoading={loading}
-              >
-                Login
-              </Button>
-            </div>
-          </form>
+          <Formik
+            initialValues={{
+              email: '',
+              password: '',
+            }}
+            validationSchema={Yup.object({
+              email: Yup.string()
+                .email('Invalid email')
+                .required('Email is required'),
+              password: Yup.string()
+                .min(6, 'Password mus be at least 6 chars')
+                .required('Password is required'),
+            })}
+            onSubmit={(
+              values: LoginData,
+              { setSubmitting }: FormikHelpers<LoginData>
+            ) => {}}
+          >
+            {({ isSubmitting, isValid, dirty }) => (
+              <Form action='/api/login' method='POST' onSubmit={handleSubmit}>
+                <FieldInput name='email' type='text' placeholder='Email' />
+                <FieldInput
+                  name='password'
+                  type='password'
+                  placeholder='Password'
+                />
+
+                <div className='ass1-login__send'>
+                  <Link href='/register'>
+                    <a>Register an account</a>
+                  </Link>
+                  <Button
+                    type='submit'
+                    className='ass1-btn'
+                    disabled={loading || isSubmitting || !dirty || !isValid}
+                    isLoading={loading || isSubmitting}
+                  >
+                    Login
+                  </Button>
+                </div>
+              </Form>
+            )}
+          </Formik>
         </div>
       </div>
     </div>

@@ -1,31 +1,13 @@
 export interface LoginData {
-  email: {
-    value: string
-    error: string
-  }
-  password: {
-    value: string
-    error: string
-  }
+  email: string
+  password: string
 }
 
 export interface RegisterData {
-  fullname: {
-    value: string
-    error: string
-  }
-  email: {
-    value: string
-    error: string
-  }
-  password: {
-    value: string
-    error: string
-  }
-  repassword: {
-    value: string
-    error: string
-  }
+  fullname: string
+  email: string
+  password: string
+  repassword: string
 }
 
 export interface UserJWTObj {

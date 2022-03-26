@@ -1,11 +1,13 @@
+import { Form, Formik, FormikHelpers } from 'formik'
 import { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Button } from '../components/Button'
+import { FieldInput } from '../components/Field'
 import { useAuthen } from '../helpers/useAuthen'
-import { validateAuthForm } from '../helpers/validateForm'
 import { RegisterData } from '../interfaces/user'
+import * as Yup from 'yup'
 
 const Register: NextPage = () => {
   useAuthen(false)
@@ -20,49 +22,9 @@ const Register: NextPage = () => {
     }
   }, [errorString])
 
-  const initialData: RegisterData = {
-    fullname: {
-      value: '',
-      error: '',
-    },
-    email: {
-      value: '',
-      error: '',
-    },
-    password: {
-      value: '',
-      error: '',
-    },
-    repassword: {
-      value: '',
-      error: '',
-    },
-  }
-  const [formData, setFormData] = useState(initialData)
-
-  const handleOnChange = (key: string) => (e: any) => {
-    setFormData({
-      ...formData,
-      [key]: {
-        value: e.target.value,
-        error: validateAuthForm(key, e.target.value, formData.password.value),
-      },
-    })
-  }
-
   const handleSubmit = (e: any) => {
     e.preventDefault()
-
-    for (let key in formData) {
-      const error = formData[key as keyof RegisterData].error
-      const value = formData[key as keyof RegisterData].value
-      if (error || !value.trim().length) {
-        return alert('Please input valid data')
-      }
-    }
-
     setLoading(true)
-
     e.target.submit()
   }
 
@@ -76,81 +38,72 @@ const Register: NextPage = () => {
       <div className='ass1-login__content'>
         <p>Register</p>
         <div className='ass1-login__form'>
-          <form action='/api/register' method='POST' onSubmit={handleSubmit}>
-            <div className='form-group'>
-              <input
-                type='text'
-                name='fullname'
-                className='form-control'
-                placeholder='Full name'
-                value={formData.fullname.value}
-                onChange={handleOnChange('fullname')}
-              />
-              {formData.fullname.error && (
-                <small className='form-text text-danger'>
-                  {formData.fullname.error}
-                </small>
-              )}
-            </div>
-            <div className='form-group'>
-              <input
-                type='text'
-                name='email'
-                className='form-control'
-                placeholder='Email'
-                value={formData.email.value}
-                onChange={handleOnChange('email')}
-              />
-              {formData.email.error && (
-                <small className='form-text text-danger'>
-                  {formData.email.error}
-                </small>
-              )}
-            </div>
-            <div className='form-group'>
-              <input
-                type='password'
-                name='password'
-                className='form-control'
-                placeholder='Password'
-                value={formData.password.value}
-                onChange={handleOnChange('password')}
-              />
-              {formData.password.error && (
-                <small className='form-text text-danger'>
-                  {formData.password.error}
-                </small>
-              )}
-            </div>
-            <div className='form-group'>
-              <input
-                type='password'
-                name='repassword'
-                className='form-control'
-                placeholder='Confirm password'
-                value={formData.repassword.value}
-                onChange={handleOnChange('repassword')}
-              />
-              {formData.repassword.error && (
-                <small className='form-text text-danger'>
-                  {formData.repassword.error}
-                </small>
-              )}
-            </div>
-            <div className='ass1-login__send'>
-              <Link href='/login'>
-                <a>Login</a>
-              </Link>
-              <Button
-                type='submit'
-                className='ass1-btn'
-                disabled={loading}
-                isLoading={loading}
+          <Formik
+            initialValues={{
+              fullname: '',
+              email: '',
+              password: '',
+              repassword: '',
+            }}
+            validationSchema={Yup.object({
+              fullname: Yup.string()
+                .min(5, 'Full name must be at least 5 chars')
+                .required()
+                .required('Full name is required'),
+              email: Yup.string()
+                .email('Invalid email')
+                .required('Email is required'),
+              password: Yup.string()
+                .min(6, 'Password mus be at least 6 chars')
+                .required('Password is required'),
+              repassword: Yup.string()
+                .oneOf([Yup.ref('password')], 'Confirm password do not match')
+                .required('Confirm password is required'),
+            })}
+            onSubmit={(
+              values: RegisterData,
+              { setSubmitting }: FormikHelpers<RegisterData>
+            ) => {}}
+          >
+            {({ isSubmitting, isValid, dirty }) => (
+              <Form
+                action='/api/register'
+                method='POST'
+                onSubmit={handleSubmit}
               >
-                Register
-              </Button>
-            </div>
-          </form>
+                <FieldInput
+                  name='fullname'
+                  type='text'
+                  placeholder='Full name'
+                />
+                <FieldInput name='email' type='text' placeholder='Email' />
+                <FieldInput
+                  name='password'
+                  type='password'
+                  placeholder='Password'
+                />
+                <FieldInput
+                  name='repassword'
+                  type='password'
+                  placeholder='Confirm password'
+                />
+
+                <div className='ass1-login__send'>
+                  <Link href='/login'>
+                    <a>Login</a>
+                  </Link>
+                  <Button
+                    type='submit'
+                    className='ass1-btn'
+                    disabled={loading || isSubmitting || !dirty || !isValid}
+                    isLoading={loading || isSubmitting}
+                  >
+                    Register
+                  </Button>
+                </div>
+              </Form>
+            )}
+          </Formik>
         </div>
       </div>
     </div>
