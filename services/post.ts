@@ -42,6 +42,9 @@ const postService = {
       `${url}/getListByCategory.php?pagesize=${params.pagesize}&currPage=${params.currPage}&tagIndex=${params.catId}`
     )
   },
+  getPostsByQuery: (searchText: string) => {
+    return axiosClient.get(`${url}/search.php?query=${encodeURI(searchText)}`)
+  },
 }
 
 export default postService

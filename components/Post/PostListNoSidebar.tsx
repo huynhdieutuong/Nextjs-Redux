@@ -6,8 +6,8 @@ import PostListItem from './PostListItem'
 
 interface PostListType {
   postList: PostType[]
-  handleLoadMore: () => void
-  isLoading: boolean
+  handleLoadMore?: () => void
+  isLoading?: boolean
 }
 
 const PostListNoSidebar: FC<PostListType> = ({
@@ -21,15 +21,18 @@ const PostListNoSidebar: FC<PostListType> = ({
         {postList.map((post) => (
           <PostListItem isNoSidebar key={post.PID} post={post} />
         ))}
-        <div>
-          <Button
-            className='load-more ass1-btn'
-            onClick={handleLoadMore}
-            isLoading={isLoading}
-          >
-            Load more
-          </Button>
-        </div>
+        {handleLoadMore && (
+          <div>
+            <Button
+              className='load-more ass1-btn'
+              onClick={handleLoadMore}
+              isLoading={isLoading}
+              disabled={isLoading}
+            >
+              Load more
+            </Button>
+          </div>
+        )}
       </Masonry>
     </div>
   )

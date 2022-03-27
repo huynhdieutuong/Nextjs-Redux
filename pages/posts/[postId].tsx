@@ -7,7 +7,10 @@ import {
 import React, { FC } from 'react'
 import { PostDetailsContent } from '../../components/Post'
 import { YourPostsSidebar } from '../../components/Sidebar'
+import { PostType } from '../../interfaces/post'
+import { CurrentUserType } from '../../interfaces/user'
 import postService from '../../services/post'
+import userService from '../../services/user'
 
 const PostDetails: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   post,
@@ -40,10 +43,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const postId = params?.postId as string
   const res = await postService.getPostDetailByPostId(postId)
+  const post: PostType = res.data.data.post || null
+
+  const resUser = await userService.getUserById(Number(post.USERID))
+  const user: CurrentUserType = resUser.data.user || null
+  if (user) {
+    post.fullname = user.fullname
+    post.profilepicture = user.profilepicture
+  }
 
   return {
     props: {
-      post: res.data.data.post || null,
+      post,
     },
     revalidate: Number(process.env.RE_GENERATION_SECONDS),
   }

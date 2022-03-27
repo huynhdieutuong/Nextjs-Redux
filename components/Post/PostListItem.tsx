@@ -34,16 +34,18 @@ const PostListItem: FC<ItemPropType> = ({
             />
           </a>
           <div>
-            <a href='' className='ass1-section__name'>
-              {post.fullname}
-            </a>
+            <a
+              href=''
+              className='ass1-section__name'
+              dangerouslySetInnerHTML={{ __html: post.fullname }}
+            />
             <span className='ass1-section__passed'>
               {dayjs(post.time_added).fromNow()}
             </span>
           </div>
         </div>
         <div className='ass1-section__content'>
-          <p>{post.post_content}</p>
+          <p dangerouslySetInnerHTML={{ __html: post.post_content }} />
           {isHideImage ? null : (
             <div className='ass1-section__image'>
               <Link href={isDetailPost ? '#' : `/posts/${post.PID}`}>

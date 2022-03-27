@@ -5,6 +5,7 @@ import { selectCurrentUser } from '../../redux/user/userReducers'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { setCurrentUser } from '../../redux/user/userActions'
 import { selectCategories } from '../../redux/post/postReducers'
+import SearchBar from './SearchBar'
 
 const Header: FC = () => {
   const router = useRouter()
@@ -52,93 +53,14 @@ const Header: FC = () => {
                 <a href='#'>Hot</a>
                 <div className='ass1-header__nav' style={{ display: 'none' }}>
                   <div className='container'>
-                    <ul>
-                      <li>
-                        <a href='#'>Funny</a>
-                      </li>
-                      <li>
-                        <a href='#'>Animals</a>
-                      </li>
-                      <li>
-                        <a href='#'>Anime &amp; Manga</a>
-                      </li>
-                      <li>
-                        <a href='#'>Awesome</a>
-                      </li>
-                      <li>
-                        <a href='#'>Basketball</a>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <a href='#'>Car</a>
-                      </li>
-                      <li>
-                        <a href='#'>Comic</a>
-                      </li>
-                      <li>
-                        <a href='#'>Cosplay</a>
-                      </li>
-                      <li>
-                        <a href='#'>Countryballs</a>
-                      </li>
-                      <li>
-                        <a href='#'>Classical Art Memes</a>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <a href='#'>Girl</a>
-                      </li>
-                      <li>
-                        <a href='#'>History</a>
-                      </li>
-                      <li>
-                        <a href='#'>K-POP</a>
-                      </li>
-                      <li>
-                        <a href='#'>V-POP</a>
-                      </li>
-                      <li>
-                        <a href='#'>Pokémon</a>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <a href='#'>School</a>
-                      </li>
-                      <li>
-                        <a href='#'>Star war</a>
-                      </li>
-                      <li>
-                        <a href='#'>Coder</a>
-                      </li>
-                      <li>
-                        <a href='#'>Travel</a>
-                      </li>
-                      <li>
-                        <a href='#'>Sport</a>
-                      </li>
-                    </ul>
+                    <ul></ul>
                   </div>
                   <div className='ass1-header__menu-transition' />
                 </div>
               </li>
             </ul>
           </nav>
-          <div className='ass1-header__search'>
-            <form action='#'>
-              <label>
-                <input
-                  type='search'
-                  name='search-text'
-                  className='form-control'
-                  placeholder='Input keyword ...'
-                />
-                <i className='icon-Search' />
-              </label>
-            </form>
-          </div>
+          <SearchBar />
           <Link href='/posts/create'>
             <a className='ass1-header__btn-upload ass1-btn'>
               <i className='icon-Upvote' /> Upload
