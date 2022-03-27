@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import cookie from 'cookie'
 import jwt_decode from 'jwt-decode'
+import NProgress from 'nprogress'
 import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
@@ -12,6 +13,7 @@ import { useAppDispatch } from '../redux/hooks'
 import { getCategories } from '../redux/post/postActions'
 import { wrapper } from '../redux/store'
 import { getCurrentUser, setCurrentUser } from '../redux/user/userActions'
+import 'nprogress/nprogress.css'
 import '../styles/globals.scss'
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps, router }) => {
@@ -44,6 +46,28 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps, router }) => {
     const hiddenPages = ['/']
     return hiddenPages.indexOf(router.pathname) === -1
   }, [router.pathname])
+
+  useEffect(() => {
+    NProgress.configure({ showSpinner: false })
+
+    const handleStart = () => {
+      NProgress.set(0.5)
+      NProgress.start()
+    }
+    const handleStop = () => {
+      NProgress.done()
+    }
+
+    router.events.on('routeChangeStart', handleStart)
+    router.events.on('routeChangeComplete', handleStop)
+    router.events.on('routeChangeError', handleStop)
+
+    return () => {
+      router.events.off('routeChangeStart', handleStart)
+      router.events.off('routeChangeComplete', handleStop)
+      router.events.off('routeChangeError', handleStop)
+    }
+  }, [router])
 
   return (
     <div id='root'>
