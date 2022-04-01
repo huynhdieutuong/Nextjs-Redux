@@ -7,6 +7,10 @@ import {
 import React, { FC } from 'react'
 import { PostDetailsContent } from '../../components/Post'
 import { YourPostsSidebar } from '../../components/Sidebar'
+import {
+  PRE_RENDERED_POSTS,
+  RE_GENERATION_SECONDS,
+} from '../../constants/pages'
 import { PostType } from '../../interfaces/post'
 import { CurrentUserType } from '../../interfaces/user'
 import postService from '../../services/post'
@@ -30,9 +34,7 @@ const PostDetails: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = await postService.getPostIds(
-    Number(process.env.PRE_RENDERED_POSTS)
-  )
+  const paths = await postService.getPostIds(PRE_RENDERED_POSTS)
 
   return {
     paths,
@@ -56,7 +58,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       post,
     },
-    revalidate: Number(process.env.RE_GENERATION_SECONDS),
+    revalidate: RE_GENERATION_SECONDS,
   }
 }
 

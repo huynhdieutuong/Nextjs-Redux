@@ -2,6 +2,7 @@ import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import React, { FC, useState } from 'react'
 import { PostListItem } from '../../components/Post'
 import PostListNoSidebar from '../../components/Post/PostListNoSidebar'
+import { RE_GENERATION_SECONDS } from '../../constants/pages'
 import { PostType } from '../../interfaces/post'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import {
@@ -66,7 +67,7 @@ export const getStaticProps: GetStaticProps = wrapper.getStaticProps(
         props: {
           catId,
         },
-        revalidate: Number(process.env.RE_GENERATION_SECONDS),
+        revalidate: RE_GENERATION_SECONDS,
       }
     }
 )

@@ -68,15 +68,19 @@ const Header: FC = () => {
           </Link>
           {currentUser ? (
             <div className='wrapper-user'>
-              <a className='user-header'>
-                <span className='avatar'>
-                  <img
-                    src={currentUser.profilepicture || '/images/avatar-02.png'}
-                    alt='avatar'
-                  />
-                </span>
-                <span className='email'>{currentUser.fullname}</span>
-              </a>
+              <Link href='/users/update-profile'>
+                <a className='user-header'>
+                  <span className='avatar'>
+                    <img
+                      src={
+                        currentUser.profilepicture || '/images/avatar-02.png'
+                      }
+                      alt='avatar'
+                    />
+                  </span>
+                  <span className='email'>{currentUser.fullname}</span>
+                </a>
+              </Link>
               <div onClick={handleLogout} className='logout'>
                 Logout
               </div>

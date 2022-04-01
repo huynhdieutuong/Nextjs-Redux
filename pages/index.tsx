@@ -12,6 +12,7 @@ import {
   setPostList,
 } from '../redux/post/postActions'
 import { wrapper } from '../redux/store'
+import { RE_GENERATION_SECONDS } from '../constants/pages'
 
 const pagesize = 3
 
@@ -59,7 +60,7 @@ export const getStaticProps: GetStaticProps = wrapper.getStaticProps(
 
     return {
       props: {},
-      revalidate: Number(process.env.RE_GENERATION_SECONDS),
+      revalidate: RE_GENERATION_SECONDS,
     }
   }
 )

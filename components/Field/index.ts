@@ -1,3 +1,5 @@
 export { default as FieldInput } from './FieldInput'
 export { default as FieldSelect } from './FieldSelect'
 export { default as FieldCheckbox } from './FieldCheckbox'
+export { default as FieldTextarea } from './FieldTextarea'
+export { default as FieldFile } from './FieldFile'
