@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Form, Formik, FormikHelpers } from 'formik'
+import { useRouter } from 'next/router'
 import React, { useRef } from 'react'
 import { toast } from 'react-toastify'
 import * as Yup from 'yup'
@@ -31,6 +32,7 @@ interface ProfileType {
 
 const UpdateProfile = () => {
   const dispatch = useAppDispatch()
+  const router = useRouter()
   const inputFileEl = useRef<HTMLInputElement>(null)
   const currentUser = useAppSelector(selectCurrentUser)
 
@@ -93,6 +95,7 @@ const UpdateProfile = () => {
                 const res = await userService.updateProfile(data)
                 dispatch(setCurrentUser(res.data.user))
                 toast.success('Profile updated successfully')
+                router.push(`/users/${currentUser?.USERID}`)
               } catch (error) {
                 toast.error('Profile update failed')
               }
@@ -104,7 +107,7 @@ const UpdateProfile = () => {
                 <>
                   <div className='avatar'>
                     <img
-                      src={values.avatar.url || '/images/avatar-02.png'}
+                      src={values.avatar.url}
                       alt='avatar'
                       onClick={handleClickImage}
                     />

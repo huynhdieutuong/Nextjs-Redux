@@ -1,5 +1,10 @@
 import { isEmptyObject } from '../helpers/utils'
-import { LoginData, RegisterData, UpdateProfileType } from '../interfaces/user'
+import {
+  ChangePasswordType,
+  LoginData,
+  RegisterData,
+  UpdateProfileType,
+} from '../interfaces/user'
 import axiosClient from './axiosClient'
 
 const url = '/member'
@@ -23,6 +28,9 @@ const userService = {
     if (!isEmptyObject(data.avatar)) formData.append('avatar', data.avatar)
 
     return axiosClient.post(`${url}/update.php`, formData)
+  },
+  changePassword: async (data: ChangePasswordType) => {
+    return axiosClient.post(`${url}/password.php`, data)
   },
 }
 

@@ -13,18 +13,24 @@ const initialState: StateType = {
   loadingUser: true,
 }
 
+const setDefaultAvatar = (currentUser: CurrentUserType) => {
+  if (!currentUser.profilepicture)
+    currentUser.profilepicture = '/images/avatar-02.png'
+  return currentUser
+}
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     setCurrentUser: (state, action: PayloadAction<CurrentUserType>) => {
-      state.currentUser = action.payload
+      state.currentUser = setDefaultAvatar(action.payload)
       state.loadingUser = false
     },
   },
   extraReducers: (builder) => {
     builder.addCase(getCurrentUser.fulfilled, (state, action) => {
-      state.currentUser = action.payload
+      state.currentUser = setDefaultAvatar(action.payload)
       state.loadingUser = false
     }),
       builder.addCase(getCurrentUser.rejected, (state) => {

@@ -1,19 +1,23 @@
 import Link from 'next/link'
 import React from 'react'
+import { useAppSelector } from '../../redux/hooks'
+import { selectCurrentUser } from '../../redux/user/userReducers'
 
 const UserDetails = () => {
+  const currentUser = useAppSelector(selectCurrentUser)
+
   return (
     <div className='ass1-head-user'>
       <div className='ass1-head-user__content'>
         <div className='ass1-head-user__image'>
           <a href='#'>
-            <img src='/images/cat-1634369_1920.jpg' alt='' />
+            <img src={currentUser?.profilepicture} alt='avatar' />
           </a>
         </div>
         <div className='ass1-head-user__info'>
           <div className='ass1-head-user__info-head'>
             <div className='ass1-head-user__name'>
-              <span>Tuong Huynh</span>
+              <span>{currentUser?.fullname}</span>
               <i>
                 <img src='/fonts/emotion/svg/Verified.svg' alt='' />
               </i>
@@ -49,7 +53,7 @@ const UserDetails = () => {
             </div>
             {/* <div class="ass1-btn-icon"><i class="icon-Upvote"></i><span>Up Vote: 999999</span></div> */}
           </div>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+          <p>{currentUser?.description}</p>
         </div>
       </div>
     </div>

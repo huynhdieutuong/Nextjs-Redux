@@ -32,3 +32,9 @@ export interface UpdateProfileType {
   description: string
   gender: string
 }
+
+export interface ChangePasswordType {
+  oldPassword: string
+  newPassword: string
+  reNewPassword: string
+}
