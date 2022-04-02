@@ -1,6 +1,5 @@
 import { useField } from 'formik'
 import React, { forwardRef } from 'react'
-import { FILE_SIZE, SUPPORTED_FORMATS } from '../../constants/validate'
 
 interface FieldFileType {
   children?: React.ReactNode
@@ -15,12 +14,6 @@ const FieldFile = forwardRef<HTMLInputElement, FieldFileType>((props, ref) => {
     const file = e.target.files[0] as File
 
     if (file) {
-      if (file.size > FILE_SIZE)
-        return helpers.setError('File size is too large')
-
-      if (!SUPPORTED_FORMATS.includes(file.type))
-        return helpers.setError('Unsupported file format')
-
       const reader = new FileReader()
       reader.readAsDataURL(file)
       reader.onloadend = () => {
@@ -28,7 +21,6 @@ const FieldFile = forwardRef<HTMLInputElement, FieldFileType>((props, ref) => {
           file,
           url: reader.result,
         })
-        helpers.setError('')
       }
     }
   }

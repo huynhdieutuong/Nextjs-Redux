@@ -13,7 +13,9 @@ import { useAppDispatch } from '../redux/hooks'
 import { getCategories } from '../redux/post/postActions'
 import { wrapper } from '../redux/store'
 import { getCurrentUser, setCurrentUser } from '../redux/user/userActions'
+import { ToastContainer } from 'react-toastify'
 import 'nprogress/nprogress.css'
+import 'react-toastify/dist/ReactToastify.css'
 import '../styles/globals.scss'
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps, router }) => {
@@ -88,6 +90,7 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps, router }) => {
 
       <main>
         <Component {...pageProps} />
+        <ToastContainer />
       </main>
 
       {isShowFooter && <Footer />}

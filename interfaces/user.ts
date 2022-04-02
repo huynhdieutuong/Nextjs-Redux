@@ -25,3 +25,10 @@ export interface CurrentUserType {
   profilepicture: string
   permission: string
 }
+
+export interface UpdateProfileType {
+  avatar: File
+  fullname: string
+  description: string
+  gender: string
+}

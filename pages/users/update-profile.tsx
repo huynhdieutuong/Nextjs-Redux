@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Form, Formik, FormikHelpers } from 'formik'
-import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
+import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 import { Button } from '../../components/Button'
 import {
@@ -9,6 +10,13 @@ import {
   FieldSelect,
   FieldTextarea,
 } from '../../components/Field'
+import { FILE_SIZE, SUPPORTED_FORMATS } from '../../constants/validate'
+import { isEmptyObject } from '../../helpers/utils'
+import { UpdateProfileType } from '../../interfaces/user'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import { setCurrentUser } from '../../redux/user/userActions'
+import { selectCurrentUser } from '../../redux/user/userReducers'
+import userService from '../../services/user'
 
 interface FileType {
   file: File
@@ -22,10 +30,23 @@ interface ProfileType {
 }
 
 const UpdateProfile = () => {
+  const dispatch = useAppDispatch()
   const inputFileEl = useRef<HTMLInputElement>(null)
+  const currentUser = useAppSelector(selectCurrentUser)
 
   const handleClickImage = () => {
     inputFileEl.current?.click()
+  }
+
+  const validateFile = (values: ProfileType) => {
+    const file = values.avatar.file
+
+    if (!isEmptyObject(file)) {
+      if (file.size > FILE_SIZE) return { avatar: 'File size is too large' }
+
+      if (!SUPPORTED_FORMATS.includes(file.type))
+        return { avatar: 'Unsupported file format' }
+    }
   }
 
   return (
@@ -34,36 +55,51 @@ const UpdateProfile = () => {
         <p>Profile</p>
         <div className='ass1-login__form'>
           <Formik
+            enableReinitialize
             initialValues={{
-              name: '',
-              gender: '',
+              name: currentUser?.fullname || '',
+              gender: currentUser?.gender || '',
               avatar: {
                 file: {} as File,
-                url: '',
+                url: currentUser?.profilepicture || '',
               },
-              bio: '',
+              bio: currentUser?.description || '',
             }}
-            validationSchema={Yup.object({
+            validate={validateFile}
+            validationSchema={Yup.object().shape({
               name: Yup.string()
                 .min(5, 'Name mus be at least 5 chars')
                 .max(20, 'Name must be less than or equal to 20 chars')
                 .required('Name is required'),
               gender: Yup.string()
-                .oneOf(['1', '0'], 'Invalid Gender')
+                .oneOf(['nam', 'nu'], 'Invalid Gender')
                 .required('Please select a gender'),
               bio: Yup.string()
                 .max(200, 'Bio must be less than or equal to 200 chars')
                 .required('Bio is required'),
             })}
-            onSubmit={(
+            onSubmit={async (
               values: ProfileType,
               { setSubmitting }: FormikHelpers<ProfileType>
             ) => {
-              console.log(values)
+              const data: UpdateProfileType = {
+                avatar: values.avatar.file,
+                fullname: values.name,
+                description: values.bio,
+                gender: values.gender,
+              }
+
+              try {
+                const res = await userService.updateProfile(data)
+                dispatch(setCurrentUser(res.data.user))
+                toast.success('Profile updated successfully')
+              } catch (error) {
+                toast.error('Profile update failed')
+              }
               setSubmitting(false)
             }}
           >
-            {({ isSubmitting, isValid, dirty, values }) => {
+            {({ values, isSubmitting, dirty, isValid }) => {
               return (
                 <>
                   <div className='avatar'>
@@ -82,8 +118,8 @@ const UpdateProfile = () => {
 
                     <FieldSelect name='gender'>
                       <option>Gender</option>
-                      <option value={1}>Male</option>
-                      <option value={0}>Female</option>
+                      <option value='nam'>Male</option>
+                      <option value='nu'>Female</option>
                     </FieldSelect>
 
                     <FieldFile

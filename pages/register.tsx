@@ -8,6 +8,7 @@ import { FieldInput } from '../components/Field'
 import { useAuthen } from '../helpers/useAuthen'
 import { RegisterData } from '../interfaces/user'
 import * as Yup from 'yup'
+import { toast } from 'react-toastify'
 
 const Register: NextPage = () => {
   useAuthen(false)
@@ -17,7 +18,7 @@ const Register: NextPage = () => {
 
   useEffect(() => {
     if (errorString) {
-      alert('Register failed')
+      toast.error('Register failed')
       window.history.pushState({}, document.title, '/register')
     }
   }, [errorString])

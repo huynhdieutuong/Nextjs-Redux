@@ -8,6 +8,7 @@ import { FieldInput } from '../components/Field'
 import { useAuthen } from '../helpers/useAuthen'
 import { LoginData } from '../interfaces/user'
 import * as Yup from 'yup'
+import { toast } from 'react-toastify'
 
 const Login: NextPage = () => {
   useAuthen(false)
@@ -17,7 +18,7 @@ const Login: NextPage = () => {
 
   useEffect(() => {
     if (queryString) {
-      alert('Login failed')
+      toast.error('Login failed')
       window.history.pushState({}, document.title, '/login')
     }
   }, [queryString])

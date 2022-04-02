@@ -24,6 +24,7 @@
     "react-dom": "17.0.2",
     "react-masonry-component": "^6.3.0",
     "react-redux": "^7.2.6",
+    "react-toastify": "^8.2.0",
     "sass": "^1.49.9",
     "yup": "^0.32.11"
   },

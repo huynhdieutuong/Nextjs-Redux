@@ -60,3 +60,6 @@ export const removeVietnameseTones = (str: string) => {
   )
   return str
 }
+
+export const isEmptyObject = (value: object) =>
+  Object.keys(value).length === 0 && value.constructor === Object
