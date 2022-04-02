@@ -25,20 +25,23 @@ const PostListItem: FC<ItemPropType> = ({
     <div className={`ass1-section__item ${classProfile}`}>
       <div className='ass1-section'>
         <div className='ass1-section__head'>
-          <a href='' className='ass1-section__avatar ass1-avatar'>
-            <img
-              src={post.profilepicture || '/images/avatar-02.png'}
-              alt=''
-              width={38}
-              height={38}
-            />
-          </a>
+          <Link href={`/users/${post.USERID}`}>
+            <a className='ass1-section__avatar ass1-avatar'>
+              <img
+                src={post.profilepicture || '/images/avatar-02.png'}
+                alt=''
+                width={38}
+                height={38}
+              />
+            </a>
+          </Link>
           <div>
-            <a
-              href=''
-              className='ass1-section__name'
-              dangerouslySetInnerHTML={{ __html: post.fullname }}
-            />
+            <Link href={`/users/${post.USERID}`}>
+              <a
+                className='ass1-section__name'
+                dangerouslySetInnerHTML={{ __html: post.fullname }}
+              />
+            </Link>
             <span className='ass1-section__passed'>
               {dayjs(post.time_added).fromNow()}
             </span>

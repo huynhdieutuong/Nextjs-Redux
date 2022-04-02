@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React, { FC, useEffect } from 'react'
+import { PostType } from '../../interfaces/post'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { getUserPostList } from '../../redux/post/postActions'
 import {
