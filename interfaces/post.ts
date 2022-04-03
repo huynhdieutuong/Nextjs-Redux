@@ -25,3 +25,13 @@ export interface CategoryType {
   text: string
   id: number
 }
+
+export interface CreatePostType {
+  obj_image: {
+    file: File
+    url: string
+  }
+  url_image: string
+  post_content: string
+  category: string
+}

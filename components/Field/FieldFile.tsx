@@ -4,7 +4,8 @@ import React, { forwardRef } from 'react'
 interface FieldFileType {
   children?: React.ReactNode
   name: string
-  placeholder: string
+  placeholder?: string
+  style?: object
 }
 
 const FieldFile = forwardRef<HTMLInputElement, FieldFileType>((props, ref) => {

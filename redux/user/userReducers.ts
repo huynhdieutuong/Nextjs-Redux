@@ -14,7 +14,7 @@ const initialState: StateType = {
 }
 
 const setDefaultAvatar = (currentUser: CurrentUserType) => {
-  if (!currentUser.profilepicture)
+  if (currentUser && !currentUser.profilepicture)
     currentUser.profilepicture = '/images/avatar-02.png'
   return currentUser
 }
