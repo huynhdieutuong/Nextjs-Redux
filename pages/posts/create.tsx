@@ -9,9 +9,12 @@ import { toast } from 'react-toastify'
 import { CreatePostType } from '../../interfaces/post'
 import { FILE_SIZE, SUPPORTED_FORMATS } from '../../constants/validate'
 import { isEmptyObject } from '../../helpers/utils'
+import postService from '../../services/post'
+import { useRouter } from 'next/router'
 
 const CreatePost: NextPage = () => {
   useAuthen()
+  const router = useRouter()
 
   const validateFile = (values: CreatePostType) => {
     const file = values.obj_image.file
@@ -64,11 +67,18 @@ const CreatePost: NextPage = () => {
             'Please select at least one category'
           ),
         })}
-        onSubmit={(
+        onSubmit={async (
           values: CreatePostType,
           { setSubmitting }: FormikHelpers<CreatePostType>
         ) => {
-          console.log(values)
+          try {
+            await postService.createPost(values)
+            router.push('/')
+            toast.success('Post created successfully')
+          } catch (error) {
+            toast.error('Post create failed')
+          }
+          setSubmitting(false)
         }}
       >
         <Form>

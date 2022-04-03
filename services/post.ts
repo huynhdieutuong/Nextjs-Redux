@@ -1,5 +1,7 @@
+import { isEmptyObject } from '../helpers/utils'
 import {
   CategoryType,
+  CreatePostType,
   ParamsGetPostListByCatIdType,
   ParamsGetPostListType,
   PostType,
@@ -44,6 +46,17 @@ const postService = {
   },
   getPostsByQuery: (searchText: string) => {
     return axiosClient.get(`${url}/search.php?query=${encodeURI(searchText)}`)
+  },
+  createPost: (data: CreatePostType) => {
+    const post = new FormData()
+    post.append('post_content', data.post_content)
+    post.append('category', data.category)
+
+    if (!isEmptyObject(data.obj_image.file))
+      post.append('obj_image', data.obj_image.file)
+    if (data.url_image) post.append('url_image', data.url_image)
+
+    return axiosClient.post(`${url}/addNew.php`, post)
   },
 }
 
