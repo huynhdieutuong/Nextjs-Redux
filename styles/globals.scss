@@ -2774,3 +2774,34 @@ main {
     }
   }
 }
+
+.list-categories {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+
+  h5 {
+    line-height: 40px;
+    margin-right: 10px;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+
+    li {
+      margin: 10px;
+      margin-left: 0px;
+
+      a {
+        padding: 5px 20px;
+        border-radius: 30px;
+        background: #fff;
+
+        &:hover {
+          background: #e4e4e4;
+        }
+      }
+    }
+  }
+}

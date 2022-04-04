@@ -58,6 +58,18 @@ const postService = {
 
     return axiosClient.post(`${url}/addNew.php`, post)
   },
+  updatePost: (data: CreatePostType) => {
+    const post = new FormData()
+    post.append('postid', data.postid as string)
+    post.append('post_content', data.post_content)
+    post.append('category', data.category)
+
+    if (!isEmptyObject(data.obj_image.file))
+      post.append('obj_image', data.obj_image.file)
+    if (data.url_image) post.append('url_image', data.url_image)
+
+    return axiosClient.post(`${url}/edit.php`, post)
+  },
 }
 
 export default postService

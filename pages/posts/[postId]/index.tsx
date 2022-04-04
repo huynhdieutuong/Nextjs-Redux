@@ -11,19 +11,20 @@ import {
   PRE_RENDERED_POSTS,
   RE_GENERATION_SECONDS,
 } from '../../../constants/pages'
-import { PostType } from '../../../interfaces/post'
+import { CategoryType, PostType } from '../../../interfaces/post'
 import { CurrentUserType } from '../../../interfaces/user'
 import postService from '../../../services/post'
 import userService from '../../../services/user'
 
 const PostDetails: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   post,
+  postCategories,
 }) => {
   return (
     <div className='container'>
       <div className='row'>
         <div className='col-lg-8'>
-          <PostDetailsContent post={post} />
+          <PostDetailsContent post={post} postCategories={postCategories} />
         </div>
         <div className='col-lg-4'>
           <YourPostsSidebar />
@@ -46,6 +47,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const postId = params?.postId as string
   const res = await postService.getPostDetailByPostId(postId)
   const post: PostType = res.data.data.post || null
+  const postCategories: CategoryType[] =
+    res.data.data.categories.map((cat: any) => ({
+      text: cat.tag_value,
+      id: cat.tag_index,
+    })) || []
 
   const resUser = await userService.getUserById(Number(post.USERID))
   const user: CurrentUserType = resUser.data.user || null
@@ -57,6 +63,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       post,
+      postCategories,
     },
     revalidate: RE_GENERATION_SECONDS,
   }

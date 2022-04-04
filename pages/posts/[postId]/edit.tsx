@@ -81,11 +81,12 @@ const EditPost: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
           { setSubmitting }: FormikHelpers<CreatePostType>
         ) => {
           try {
-            await postService.createPost(values)
-            router.push('/')
-            toast.success('Post created successfully')
+            values.postid = post.PID
+            await postService.updatePost(values)
+            router.push(`/posts/${post.PID}`)
+            toast.success('Post updated successfully')
           } catch (error) {
-            toast.error('Post create failed')
+            toast.error('Post update failed')
           }
           setSubmitting(false)
         }}

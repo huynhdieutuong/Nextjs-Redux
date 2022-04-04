@@ -34,4 +34,5 @@ export interface CreatePostType {
   url_image: string
   post_content: string
   category: string
+  postid?: string
 }
