@@ -5,16 +5,16 @@ import {
   NextPage,
 } from 'next'
 import React, { FC } from 'react'
-import { PostDetailsContent } from '../../components/Post'
-import { YourPostsSidebar } from '../../components/Sidebar'
+import { PostDetailsContent } from '../../../components/Post'
+import { YourPostsSidebar } from '../../../components/Sidebar'
 import {
   PRE_RENDERED_POSTS,
   RE_GENERATION_SECONDS,
-} from '../../constants/pages'
-import { PostType } from '../../interfaces/post'
-import { CurrentUserType } from '../../interfaces/user'
-import postService from '../../services/post'
-import userService from '../../services/user'
+} from '../../../constants/pages'
+import { PostType } from '../../../interfaces/post'
+import { CurrentUserType } from '../../../interfaces/user'
+import postService from '../../../services/post'
+import userService from '../../../services/user'
 
 const PostDetails: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   post,

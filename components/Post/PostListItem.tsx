@@ -1,9 +1,12 @@
 import Image from 'next/image'
-import React, { FC } from 'react'
+import React, { FC, RefObject, useRef, useState } from 'react'
 import { PostType } from '../../interfaces/post'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import Link from 'next/link'
+import { useOuterClick } from '../../hooks'
+import { useAppSelector } from '../../redux/hooks'
+import { selectCurrentUser } from '../../redux/user/userReducers'
 dayjs.extend(relativeTime)
 
 interface ItemPropType {
@@ -19,8 +22,13 @@ const PostListItem: FC<ItemPropType> = ({
   isDetailPost,
   post,
 }) => {
+  const [openOptions, setOpenOptions] = useState(false)
+  const innerRef = useOuterClick(() => setOpenOptions(false))
+  const currentUser = useAppSelector(selectCurrentUser)
+
   if (!post) return null
   const classProfile = isNoSidebar ? 'col-lg-6' : null
+
   return (
     <div className={`ass1-section__item ${classProfile}`}>
       <div className='ass1-section'>
@@ -35,7 +43,7 @@ const PostListItem: FC<ItemPropType> = ({
               />
             </a>
           </Link>
-          <div>
+          <div style={{ flexGrow: 1 }}>
             <Link href={`/users/${post.USERID}`}>
               <a
                 className='ass1-section__name'
@@ -46,6 +54,33 @@ const PostListItem: FC<ItemPropType> = ({
               {dayjs(post.time_added).fromNow()}
             </span>
           </div>
+          {post.USERID === currentUser?.USERID && (
+            <div
+              ref={innerRef as RefObject<HTMLDivElement>}
+              className='wrapper-options'
+            >
+              <div
+                className='wrap-icon'
+                onClick={() => setOpenOptions((open) => !open)}
+              >
+                <i className='icon-Options'></i>
+              </div>
+              {openOptions && (
+                <div className='options'>
+                  <div className='option edit-option'>
+                    <Link href={`/posts/${post.PID}/edit`}>
+                      <a>Edit</a>
+                    </Link>
+                  </div>
+                  <div className='option delete-option'>
+                    <Link href={`/posts/${post.PID}/delete`}>
+                      <a style={{ color: 'red' }}>Delete</a>
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
         <div className='ass1-section__content'>
           <p dangerouslySetInnerHTML={{ __html: post.post_content }} />

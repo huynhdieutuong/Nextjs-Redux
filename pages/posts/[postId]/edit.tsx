@@ -1,19 +1,27 @@
 import { Form, Formik, FormikHelpers } from 'formik'
-import { NextPage } from 'next'
-import React from 'react'
-import { PostDetailForm } from '../../components/Post'
-import { CreatePostSidebar } from '../../components/Sidebar'
-import { useAuthen } from '../../hooks'
+import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
+import React, { FC, useEffect, useState } from 'react'
+import { PostDetailForm } from '../../../components/Post'
+import { CreatePostSidebar } from '../../../components/Sidebar'
+import { useAuthen, useOwner } from '../../../hooks'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
-import { CreatePostType } from '../../interfaces/post'
-import { FILE_SIZE, SUPPORTED_FORMATS } from '../../constants/validate'
-import { isEmptyObject } from '../../helpers/utils'
-import postService from '../../services/post'
+import {
+  CategoryType,
+  CreatePostType,
+  PostType,
+} from '../../../interfaces/post'
+import { FILE_SIZE, SUPPORTED_FORMATS } from '../../../constants/validate'
+import { isEmptyObject } from '../../../helpers/utils'
+import postService from '../../../services/post'
 import { useRouter } from 'next/router'
 
-const CreatePost: NextPage = () => {
-  useAuthen()
+const EditPost: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  post,
+  category,
+}) => {
+  useOwner(post)
+
   const router = useRouter()
 
   const validateFile = (values: CreatePostType) => {
@@ -31,14 +39,15 @@ const CreatePost: NextPage = () => {
   return (
     <div className='container'>
       <Formik
+        enableReinitialize
         initialValues={{
           obj_image: {
             file: {} as File,
             url: '',
           },
-          url_image: '',
-          post_content: '',
-          category: '',
+          url_image: post?.url_image || '',
+          post_content: post?.post_content || '',
+          category: category || '',
         }}
         validate={validateFile}
         validationSchema={Yup.object({
@@ -87,7 +96,7 @@ const CreatePost: NextPage = () => {
               <PostDetailForm />
             </div>
             <div className='col-lg-4'>
-              <CreatePostSidebar />
+              <CreatePostSidebar isEdit />
             </div>
           </div>
         </Form>
@@ -96,4 +105,18 @@ const CreatePost: NextPage = () => {
   )
 }
 
-export default CreatePost
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const postId = query.postId as string
+  const res = await postService.getPostDetailByPostId(postId)
+
+  const post: PostType = res.data.data.post
+  const category = res.data.data.categories
+    .map((cat: any) => cat.tag_index)
+    .join(',')
+
+  return {
+    props: { post, category },
+  }
+}
+
+export default EditPost

@@ -1,11 +1,16 @@
 import { useField, useFormikContext } from 'formik'
 import React, { FC, useState } from 'react'
+import { CategoryType } from '../../interfaces/post'
 import { useAppSelector } from '../../redux/hooks'
 import { selectCategories } from '../../redux/post/postReducers'
 import { Button } from '../Button'
 import { FieldCheckbox } from '../Field'
 
-const CreatePostSidebar: FC = () => {
+interface CreatePostSidebarType {
+  isEdit?: boolean
+}
+
+const CreatePostSidebar: FC<CreatePostSidebarType> = ({ isEdit }) => {
   const categories = useAppSelector(selectCategories)
   const [field, meta] = useField('category')
   const { isSubmitting, dirty, isValid } = useFormikContext()
@@ -19,7 +24,7 @@ const CreatePostSidebar: FC = () => {
           disabled={isSubmitting || !dirty || !isValid}
           isLoading={isSubmitting}
         >
-          Create post
+          {isEdit ? 'Update post' : 'Create post'}
         </Button>
       </div>
       <div className='ass1-aside__edit-post-head'>
@@ -29,13 +34,14 @@ const CreatePostSidebar: FC = () => {
             <small className='form-text text-danger'>{meta.error}</small>
           )}
         </span>
-        {categories.map((category) => (
+        {categories.map((cat) => (
           <FieldCheckbox
             name='category'
             className='ass1-checkbox'
-            key={category.id}
-            value={category.id}
-            text={category.text}
+            checked={field.value.split(',').includes(cat.id.toString())}
+            key={cat.id}
+            value={cat.id}
+            text={cat.text}
           />
         ))}
       </div>

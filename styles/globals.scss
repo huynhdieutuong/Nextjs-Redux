@@ -891,7 +891,6 @@ select.form-control:focus {
   margin-right: 30px;
 }
 .ass1-section__name {
-  display: block;
   margin-right: 10px;
   font-weight: 500;
 }
@@ -2725,5 +2724,53 @@ main {
     position: absolute;
     display: block;
     text-align: left;
+  }
+}
+
+.wrapper-options {
+  position: relative;
+
+  .wrap-icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: rgb(224, 224, 224);
+    }
+  }
+
+  .options {
+    right: 0;
+    top: 100%;
+    position: absolute;
+    background-color: #fff;
+    min-width: 50px;
+    border-radius: 3px;
+    box-shadow: 0 0 5px 0 rgb(0 0 0 / 10%);
+    z-index: 0;
+
+    .option {
+      border-bottom: 1px solid #e1e0e0;
+
+      a {
+        padding: 10px 30px;
+        cursor: pointer;
+        display: block;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
   }
 }

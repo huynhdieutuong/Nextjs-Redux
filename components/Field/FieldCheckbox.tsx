@@ -6,6 +6,7 @@ interface FieldCheckboxType {
   name: string
   value: number
   text: string
+  checked?: boolean
 }
 
 const FieldCheckbox: FC<FieldCheckboxType> = ({

@@ -6,7 +6,7 @@ import {
   selectLoadingUser,
 } from '../redux/user/userReducers'
 
-export function useAuthen(requiredLogin: boolean = true) {
+const useAuthen = (requiredLogin: boolean = true) => {
   const router = useRouter()
   const currentUser = useAppSelector(selectCurrentUser)
   const loadingUser = useAppSelector(selectLoadingUser)
@@ -22,3 +22,5 @@ export function useAuthen(requiredLogin: boolean = true) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser, loadingUser])
 }
+
+export default useAuthen

@@ -28,10 +28,11 @@ const UserDetails: FC<UserDetailsType> = ({ user }) => {
               </i>
             </div>
             <div className='w-100' />
-            <a href='#' className='ass1-head-user__btn-follow ass1-btn'>
-              Follow
-            </a>
-            {currentUser?.USERID === user?.USERID && (
+            {currentUser?.USERID !== user?.USERID ? (
+              <a href='#' className='ass1-head-user__btn-follow ass1-btn'>
+                Follow
+              </a>
+            ) : (
               <>
                 <Link href='/users/change-password'>
                   <a className='ass1-head-user__btn-follow ass1-btn'>
