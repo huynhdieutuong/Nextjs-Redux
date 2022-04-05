@@ -7,6 +7,9 @@ import Link from 'next/link'
 import { useOuterClick } from '../../hooks'
 import { useAppSelector } from '../../redux/hooks'
 import { selectCurrentUser } from '../../redux/user/userReducers'
+import { toast } from 'react-toastify'
+import postService from '../../services/post'
+import { useRouter } from 'next/router'
 dayjs.extend(relativeTime)
 
 interface ItemPropType {
@@ -25,9 +28,23 @@ const PostListItem: FC<ItemPropType> = ({
   const [openOptions, setOpenOptions] = useState(false)
   const innerRef = useOuterClick(() => setOpenOptions(false))
   const currentUser = useAppSelector(selectCurrentUser)
+  const router = useRouter()
 
   if (!post) return null
   const classProfile = isNoSidebar ? 'col-lg-6' : null
+
+  const handleDeletePost = async (postid: string) => {
+    const answer = confirm(`Are you sure to delete this post ${postid}?`)
+    if (!answer) return
+
+    try {
+      await postService.deletePost(postid)
+      toast.success('Post deleted successfully')
+      router.push('/')
+    } catch (error) {
+      toast.error('Post delete failed')
+    }
+  }
 
   return (
     <div className={`ass1-section__item ${classProfile}`}>
@@ -73,9 +90,12 @@ const PostListItem: FC<ItemPropType> = ({
                     </Link>
                   </div>
                   <div className='option delete-option'>
-                    <Link href={`/posts/${post.PID}/delete`}>
-                      <a style={{ color: 'red' }}>Delete</a>
-                    </Link>
+                    <a
+                      style={{ color: 'red' }}
+                      onClick={() => handleDeletePost(post.PID)}
+                    >
+                      Delete
+                    </a>
                   </div>
                 </div>
               )}

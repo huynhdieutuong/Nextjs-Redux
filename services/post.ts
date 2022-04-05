@@ -70,6 +70,9 @@ const postService = {
 
     return axiosClient.post(`${url}/edit.php`, post)
   },
+  deletePost: (postid: string) => {
+    return axiosClient.post(`${url}/delete.php`, { postid })
+  },
 }
 
 export default postService
