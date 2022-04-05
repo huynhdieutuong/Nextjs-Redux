@@ -1,24 +1,34 @@
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import Link from 'next/link'
 import React, { FC } from 'react'
+import { CommentType } from '../../interfaces/comment'
+dayjs.extend(relativeTime)
 
-const CommentListItem: FC = ({ children }) => {
+interface CommentListItemType {
+  comment: CommentType
+}
+
+const CommentListItem: FC<CommentListItemType> = ({ children, comment }) => {
   return (
     <div className='ass1-comments__section'>
-      <a href='#' className='ass1-comments__avatar ass1-avatar'>
-        <img src='/images/avatar-02.png' alt='' />
-      </a>
+      <Link href={`/users/${comment.USERID}`}>
+        <a className='ass1-comments__avatar ass1-avatar'>
+          <img src={comment.profilepicture} alt='' />
+        </a>
+      </Link>
       <div className='ass1-comments__content'>
-        <a href='#' className='ass1-comments__name'>
-          James{' '}
-        </a>
-        <span className='ass1-comments__passed'>12 hours ago</span>
-        <a href='#' className='ass1-comments__btn-reply ass1-btn-icon'>
+        <Link href={`/users/${comment.USERID}`}>
+          <a className='ass1-comments__name'>{comment.fullname} </a>
+        </Link>
+        <span className='ass1-comments__passed'>
+          {dayjs(comment.time_added).fromNow()}
+        </span>
+        {/* <a href='#' className='ass1-comments__btn-reply ass1-btn-icon'>
           <i className='icon-Reply'> Reply</i>
-        </a>
-        <p>
-          Scratch off globe, for when you want to wipe out any country that
-          displeases you but lack the weaponry to do so.
-        </p>
-        <div className='ass1-comments__info'>
+        </a> */}
+        <p>{comment.comment}</p>
+        {/* <div className='ass1-comments__info'>
           <a href='#' className='ass1-comments__btn-upvote ass1-btn-icon'>
             <i className='icon-Upvote' />
             <span>901</span>
@@ -30,7 +40,7 @@ const CommentListItem: FC = ({ children }) => {
           <a href='#' className='ass1-comments__btn-flag ass1-btn-icon'>
             <i className='icon-Flag' />
           </a>
-        </div>
+        </div> */}
         {children}
       </div>
     </div>

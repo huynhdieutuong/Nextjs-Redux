@@ -71,7 +71,7 @@ const Header: FC = () => {
               <Link href={`/users/${currentUser.USERID}`}>
                 <a className='user-header'>
                   <span className='avatar'>
-                    <img src={currentUser.profilepicture} alt='avatar' />
+                    <img src={currentUser.profilepicture} alt='' />
                   </span>
                   <span className='email'>{currentUser.fullname}</span>
                 </a>

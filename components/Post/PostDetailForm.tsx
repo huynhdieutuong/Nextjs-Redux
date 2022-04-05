@@ -36,11 +36,7 @@ const PostDetailForm: FC = () => {
         />
 
         <div className='ass1-section__image'>
-          <img
-            src={url}
-            alt='post-image'
-            onClick={() => inputFileEl.current?.click()}
-          />
+          <img src={url} alt='' onClick={() => inputFileEl.current?.click()} />
         </div>
 
         <FieldFile

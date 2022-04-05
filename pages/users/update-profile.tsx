@@ -108,7 +108,7 @@ const UpdateProfile = () => {
                   <div className='avatar'>
                     <img
                       src={values.avatar.url}
-                      alt='avatar'
+                      alt=''
                       onClick={handleClickImage}
                     />
                   </div>
@@ -136,6 +136,7 @@ const UpdateProfile = () => {
                       cols={30}
                       rows={5}
                       placeholder='Bio ...'
+                      max={200}
                     />
 
                     <div className='ass1-login__send justify-content-center'>

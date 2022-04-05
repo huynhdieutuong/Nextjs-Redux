@@ -13,18 +13,24 @@ import {
 } from '../../../constants/pages'
 import { CategoryType, PostType } from '../../../interfaces/post'
 import { CurrentUserType } from '../../../interfaces/user'
+import commentService from '../../../services/comment'
 import postService from '../../../services/post'
 import userService from '../../../services/user'
 
 const PostDetails: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   post,
   postCategories,
+  comments,
 }) => {
   return (
     <div className='container'>
       <div className='row'>
         <div className='col-lg-8'>
-          <PostDetailsContent post={post} postCategories={postCategories} />
+          <PostDetailsContent
+            post={post}
+            postCategories={postCategories}
+            comments={comments}
+          />
         </div>
         <div className='col-lg-4'>
           <YourPostsSidebar />
@@ -45,6 +51,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const postId = params?.postId as string
+
   const res = await postService.getPostDetailByPostId(postId)
   const post: PostType = res.data.data.post || null
   const postCategories: CategoryType[] =
@@ -53,7 +60,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       id: cat.tag_index,
     })) || []
 
-  const resUser = await userService.getUserById(Number(post.USERID))
+  const [resUser, resComment] = await Promise.all([
+    userService.getUserById(Number(post.USERID)),
+    commentService.getCommentsByPostId(post.PID),
+  ])
+  const comments = resComment.data.comments || []
   const user: CurrentUserType = resUser.data.user || null
   if (user) {
     post.fullname = user.fullname
@@ -64,6 +75,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       post,
       postCategories,
+      comments,
     },
     revalidate: RE_GENERATION_SECONDS,
   }

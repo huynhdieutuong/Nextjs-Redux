@@ -168,6 +168,8 @@ select.form-control:focus {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
+  min-width: 60px;
+  justify-content: center;
 }
 .ass1-btn i {
   margin-right: 12px;
@@ -1233,13 +1235,13 @@ select.form-control:focus {
   padding: 5px 10px;
 }
 .ass1-add-comment__content {
-  margin-top: 50px;
   align-items: center;
   flex-wrap: wrap;
   display: -moz-box;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
+  justify-content: right;
 }
 .ass1-add-comment__content > span {
   color: #9fa3ac;

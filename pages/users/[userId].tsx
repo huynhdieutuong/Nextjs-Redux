@@ -26,7 +26,7 @@ const Profile = () => {
 
   return (
     <div className='container'>
-      <UserDetails user={user} />
+      <UserDetails user={user} postList={posts} />
       <PostListNoSidebar postList={posts} />
     </div>
   )

@@ -1,11 +1,16 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
+import { CommentType } from '../../interfaces/comment'
 import CommentListItem from './CommentListItem'
 
-const CommentList: FC = () => {
+interface CommentListType {
+  comments: CommentType[]
+}
+
+const CommentList: FC<CommentListType> = ({ comments }) => {
   return (
     <div className='ass1-comments'>
       <div className='ass1-comments__head'>
-        <div className='ass1-comments__title'>214 comments</div>
+        <div className='ass1-comments__title'>{comments?.length} comments</div>
         <div className='ass1-comments__options'>
           <span>Sort by:</span>
           <a href='#' className='ass1-comments__btn-upvote ass1-btn-icon'>
@@ -20,14 +25,14 @@ const CommentList: FC = () => {
         </div>
       </div>
 
-      <CommentListItem />
+      {comments?.map((comment) => (
+        <CommentListItem key={comment.CID} comment={comment} />
+      ))}
 
-      <CommentListItem>
+      {/* <CommentListItem>
         <CommentListItem />
         <CommentListItem />
-      </CommentListItem>
-
-      <CommentListItem />
+      </CommentListItem> */}
     </div>
   )
 }

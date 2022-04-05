@@ -10,6 +10,7 @@ import { selectCurrentUser } from '../../redux/user/userReducers'
 import { toast } from 'react-toastify'
 import postService from '../../services/post'
 import { useRouter } from 'next/router'
+import { CommentType } from '../../interfaces/comment'
 dayjs.extend(relativeTime)
 
 interface ItemPropType {
@@ -17,6 +18,7 @@ interface ItemPropType {
   isHideImage?: boolean
   isDetailPost?: boolean
   post: PostType
+  comments?: CommentType[]
 }
 
 const PostListItem: FC<ItemPropType> = ({
@@ -24,6 +26,7 @@ const PostListItem: FC<ItemPropType> = ({
   isHideImage,
   isDetailPost,
   post,
+  comments,
 }) => {
   const [openOptions, setOpenOptions] = useState(false)
   const innerRef = useOuterClick(() => setOpenOptions(false))
@@ -115,7 +118,7 @@ const PostListItem: FC<ItemPropType> = ({
           )}
         </div>
         <div className='ass1-section__footer'>
-          <a href='#' className='ass1-section__btn-upvote ass1-btn-icon'>
+          {/* <a href='#' className='ass1-section__btn-upvote ass1-btn-icon'>
             <i className='icon-Upvote' />
           </a>
           <a href='#' className='ass1-section__btn-downvote ass1-btn-icon'>
@@ -124,11 +127,13 @@ const PostListItem: FC<ItemPropType> = ({
           <a href='#' className='ass1-section__btn-like ass1-btn-icon'>
             <i className='icon-Favorite_Full' />
             <span>1,274</span>
-          </a>
-          <a href='#' className='ass1-section__btn-comment ass1-btn-icon'>
-            <i className='icon-Comment_Full' />
-            <span>982</span>
-          </a>
+          </a> */}
+          <Link href={`/posts/${post.PID}`}>
+            <a className='ass1-section__btn-comment ass1-btn-icon'>
+              <i className='icon-Comment_Full' />
+              <span>{post.count || comments?.length || 0}</span>
+            </a>
+          </Link>
         </div>
       </div>
     </div>
