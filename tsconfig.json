@@ -20,7 +20,8 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/_document.js",
-    "contexts/user/UserState.js"
+    "contexts/user/UserState.js",
+    "pages/server-sitemap.xml/index.tsx"
   ],
   "exclude": ["node_modules"]
 }
