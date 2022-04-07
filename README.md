@@ -8,5 +8,5 @@
 
 2. Get currentUser by userId from cookie (token):
 
-- Call api getUserById in getInitialProps
+- Call api getUserById in Client side
 - SetCurrentUser as global state by UserContext

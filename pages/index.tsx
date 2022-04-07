@@ -13,6 +13,7 @@ import {
 } from '../redux/post/postActions'
 import { wrapper } from '../redux/store'
 import { RE_GENERATION_SECONDS } from '../constants/pages'
+import { NextSeo } from 'next-seo'
 
 const pagesize = 3
 
@@ -29,6 +30,34 @@ const Home: FC<InferGetStaticPropsType<typeof getStaticProps>> = () => {
 
   return (
     <div className='container'>
+      <NextSeo
+        title='Funny photo social network - Meme'
+        description='This is a photo social network'
+        openGraph={{
+          title: 'Demo - Funny photo social network - Meme',
+          description: 'Demo - This is a photo social network',
+          images: [
+            {
+              url: '/images/cat-1634369_1920.jpg',
+              width: 800,
+              height: 600,
+              alt: 'Og Image Alt',
+              type: 'image/jpeg',
+            },
+            {
+              url: '/images/cat-1652822_1920.jpg',
+              width: 900,
+              height: 800,
+              alt: 'Og Image Alt Second',
+              type: 'image/jpeg',
+            },
+            { url: '/images/cat-1634369_1920.jpg' },
+            { url: '/images/cat-1652822_1920.jpg' },
+          ],
+          site_name: 'This is site name',
+        }}
+      />
+      <h1 style={{ display: 'none' }}>Funny photo social network - Meme</h1>
       <div className='row'>
         <div className='col-lg-8'>
           <PostList

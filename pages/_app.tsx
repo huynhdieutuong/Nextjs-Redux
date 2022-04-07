@@ -17,6 +17,7 @@ import { ToastContainer } from 'react-toastify'
 import 'nprogress/nprogress.css'
 import 'react-toastify/dist/ReactToastify.css'
 import '../styles/globals.scss'
+import { DefaultSeo } from 'next-seo'
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps, router }) => {
   const dispatch = useAppDispatch()
@@ -73,18 +74,21 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps, router }) => {
 
   return (
     <div id='root'>
-      <Head>
-        <meta httpEquiv='Content-Type' content='text/html; charset=UTF-8' />
-        <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
-        <meta
-          name='viewport'
-          content='width=device-width, minimum-scale=1, maximum-scale=1'
-        />
-        <meta name='keywords' content='HTML5 Template' />
-        <meta name='description' content='Funny photo social network - Meme' />
-        <link rel='icon' href='/favicon.ico' />
-        <title>Funny photo social network - Meme</title>
-      </Head>
+      <DefaultSeo
+        title='Default - Funny photo social network - Meme'
+        description='Default - This is a photo social network'
+        openGraph={{
+          type: 'website',
+          locale: 'en_IE',
+          url: 'https://www.url.ie/',
+          site_name: 'SiteName',
+        }}
+        twitter={{
+          handle: '@handle',
+          site: '@site',
+          cardType: 'summary_large_image',
+        }}
+      />
 
       {isShowHeader && <Header />}
 

@@ -33,6 +33,10 @@ const postService = {
   getCategories: () => {
     return axiosClient.get('/categories/index.php')
   },
+  getCategory: async (catId: number) => {
+    const res = await postService.getCategories()
+    return res.data.categories.find((cat: CategoryType) => cat.id === catId)
+  },
   getCatIds: async () => {
     const res = await postService.getCategories()
     return res.data.categories.map((category: CategoryType) => ({

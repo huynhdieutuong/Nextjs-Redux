@@ -4,6 +4,7 @@ import {
   InferGetStaticPropsType,
   NextPage,
 } from 'next'
+import { NextSeo } from 'next-seo'
 import React, { FC } from 'react'
 import { PostDetailsContent } from '../../../components/Post'
 import { YourPostsSidebar } from '../../../components/Sidebar'
@@ -24,6 +25,17 @@ const PostDetails: FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
 }) => {
   return (
     <div className='container'>
+      <NextSeo
+        title={`This is post of ${post.fullname}`}
+        description={post.post_content}
+        openGraph={{
+          title: `Demo - This is post of ${post.fullname}`,
+          description: `Demo - ${post.post_content}`,
+          images: [{ url: post.url_image }],
+          site_name: 'This is site name',
+        }}
+      />
+      <h1 style={{ display: 'none' }}>{`This is post of ${post.fullname}`}</h1>
       <div className='row'>
         <div className='col-lg-8'>
           <PostDetailsContent
